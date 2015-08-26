@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!--CSS-->
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/css/cssLayout.css"/>
+
+        <!-- JS-->
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/jQuery/jquery-1.11.3.min.js" type="text/javascript"/>
+        <script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"/>
+
+
+    </h:head>
+
+    <h:body>
+
+
+        <div class="col-md-12">
+
+            <div id="logo" class="row">
+                <div class="col-md-3">
+                    <ui:insert name="top">
+                        <!--h:graphicImage value="/images/logo.png" width="100%"/--> 
+                        TOPO<br/>
+                        TOPO<br/>
+                        TOPO
+                    </ui:insert>
+                </div>
+
+                <div class="col-md-6" style="margin-top: 1%">
+                    <ui:insert name="menu">
+                        <!--h:graphicImage value="/images/logo.png" width="100%"/-->
+
+                        <c:if test="#{loginMB.userLogado}">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary">Apple</button>
+                                <c:if test="#{loginMB.adminUsr}">
+                                    <button type="button" class="btn btn-primary">Acoes de ADMINISTRADOR</button>
+                                </c:if>
+                                <c:if test="#{loginMB.coordUsr}">
+                                    <button type="button" class="btn btn-primary">Acoes de COORDENADOR</button>
+                                </c:if>
+                                <c:if test="#{loginMB.profUsr}">
+                                    <button type="button" class="btn btn-primary">Acoes de PROFESSOR</button>
+                                </c:if>
+                                <c:if test="#{loginMB.aluUsr}">
+                                    <button type="button" class="btn btn-primary">Acoes de ALUNO</button>
+                                </c:if>
+                                <button type="button" class="btn btn-primary">Samsung</button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        Sony <span class="caret"></span></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#">Tablet</a></li>
+                                        <li><a href="#">Smartphone</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </c:if>    
+
+                    </ui:insert>
+                </div>
+                <div class="col-md-3" style="margin-top: 1%">
+                    <c:if test="#{loginMB.userLogado}">
+                        <h:form>
+                            NOME LA NOS QUINTO <h:commandButton value="Sair" class="btn btn-primary" action="#{loginMB.efetuarLogoutMB()}"/>
+                        </h:form>
+                    </c:if>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+            <div id="content" class="form-group">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+
+            <div class="navbar navbar-fixed-bottom">
+                <ui:insert name="bottom">
+                    <center>
+                        <footer>
+                            <div class="container">
+                                AQUI O FOOOOOOOOOOOOOOOOTER<br/>
+                                AQUI O FOOOOOOOOOOOOOOOOTER 2<br/>
+                                AQUI O FOOOOOOOOOOOOOOOOTER 3
+                            </div>
+                        </footer>
+                    </center>
+                </ui:insert>
+            </div>
+        </div>
+
+
+    </h:body>
+
+</html>
