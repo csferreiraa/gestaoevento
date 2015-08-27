@@ -26,13 +26,15 @@
 
         <div class="col-md-12">
 
-            <div id="logo" class="row">
+            <div id="espacoLogo" class="row">
                 <div class="col-md-3">
                     <ui:insert name="top">
-                        <!--h:graphicImage value="/images/logo.png" width="100%"/--> 
-                        TOPO<br/>
-                        TOPO<br/>
-                        TOPO
+                        <b>
+                            <!--h:graphicImage value="/images/logo.png" width="100%"/--> 
+                            TOPO<br/>
+                            TOPO<br/>
+                            TOPO
+                        </b>
                     </ui:insert>
                 </div>
 
@@ -69,10 +71,10 @@
 
                     </ui:insert>
                 </div>
-                <div class="col-md-3" style="margin-top: 1%">
+                <div class="col-md-3" style="margin-top: 1%" id="pessoaLogada">
                     <c:if test="#{loginMB.userLogado}">
                         <h:form>
-                            NOME LA NOS QUINTO <h:commandButton value="Sair" class="btn btn-primary" action="#{loginMB.efetuarLogoutMB()}"/>
+                            <h:outputLabel value="#{loginMB.usuario.nomeCompleto}"/> &nbsp; <h:commandButton value="Sair" class="btn btn-primary" action="#{loginMB.efetuarLogoutMB()}"/>
                         </h:form>
                     </c:if>
 
@@ -94,11 +96,13 @@
                 <ui:insert name="bottom">
                     <center>
                         <footer>
-                            <div class="container">
-                                AQUI O FOOOOOOOOOOOOOOOOTER<br/>
-                                AQUI O FOOOOOOOOOOOOOOOOTER 2<br/>
-                                AQUI O FOOOOOOOOOOOOOOOOTER 3
-                            </div>
+                            <b>
+                                <div class="container">
+                                    SISTEMA DE GEST&Atilde;O DE EVENTOS<br/>
+                                    NOME DO CREITU AQUI !!!!!!!!!!<br/>
+                                    UNIARA - CENTRO UNIVERSIT&Aacute;RIO DE ARARAQUARA
+                                </div>
+                            </b>
                         </footer>
                     </center>
                 </ui:insert>
