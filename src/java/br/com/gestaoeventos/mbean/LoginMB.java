@@ -5,7 +5,6 @@
  */
 package br.com.gestaoeventos.mbean;
 
-import br.com.gestaoeventos.bean.GrupoUsuario;
 import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
 import br.com.gestaoeventos.fachada.CadastroUsuarioFachada;
@@ -55,11 +54,11 @@ public class LoginMB implements Serializable {
     private static final String PROFESSOR = "PROFESSOR";
     private static final String ALUNO = "ALUNO";
 
-    private String urlDestino;
     
     /**
      * Metodo responsavel por realizar o login e redirecionar para tala inicio
      *
+     * @return String
      */
     public String efetuarLoginMB() {
 
@@ -150,9 +149,8 @@ public class LoginMB implements Serializable {
      * atraves do proprio Aluno.
      *
      * @return String
-     * @throws java.lang.Exception
      */
-    public String cadastrarAlunoPorAluno() throws Exception {
+    public String cadastrarAlunoPorAluno() {
 
         try {
             Usuario usuario = new Usuario();
@@ -170,7 +168,7 @@ public class LoginMB implements Serializable {
 
             return "/login.xhtml?faces-redirect=true";
         } catch (Exception e) {
-            return null;
+            return "";
         }
 
     }
@@ -327,25 +325,6 @@ public class LoginMB implements Serializable {
      */
     public static String getALUNO() {
         return ALUNO;
-    }
-
-    /**
-     * @return the urlDestino
-     */
-    public String getUrlDestino() {
-        return urlDestino;
-    }
-
-    /**
-     * @param urlDestino the urlDestino to set
-     */
-    public void setUrlDestino(String urlDestino) {
-        this.urlDestino = urlDestino;
-    }
-
-
-
+    }    
     
-    
-
 }
