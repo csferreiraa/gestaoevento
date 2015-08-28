@@ -111,13 +111,13 @@ public class LoginMB implements Serializable {
      */
     public void validaGrupoAcesso(Usuario user) {
 
-        if (user.getGrupos().getIdGrupo() == 29) {
+        if (user.getGrupos().getIdGrupo() == 1) {
             this.setAdminUsr(Boolean.TRUE);
-        } else if (user.getGrupos().getIdGrupo() == 30) {
+        } else if (user.getGrupos().getIdGrupo() == 2) {
             this.setCoordUsr(Boolean.TRUE);
-        } else if (user.getGrupos().getIdGrupo() == 31) {
+        } else if (user.getGrupos().getIdGrupo() == 3) {
             this.setProfUsr(Boolean.TRUE);
-        } else if (user.getGrupos().getIdGrupo() == 32) {
+        } else if (user.getGrupos().getIdGrupo() == 4) {
             this.setAluUsr(Boolean.TRUE);
         }
 
@@ -159,7 +159,7 @@ public class LoginMB implements Serializable {
             usuario.setSenha(converter.stringToMD5(this.getPassword().trim()));
 
             // FIXADO
-            Grupos grupos = new Grupos(32, "ALUNO");
+            Grupos grupos = new Grupos(4, "ALUNO");
 
             usuario.setGrupos(grupos);
 
