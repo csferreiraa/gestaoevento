@@ -11,6 +11,7 @@ import br.com.gestaoeventos.fachada.CadastroUsuarioFachada;
 import br.com.gestaoeventos.fachada.LoginFachada;
 import br.com.gestaoeventos.servicos.Converter;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -153,18 +154,20 @@ public class LoginMB implements Serializable {
     public String cadastrarAlunoPorAluno() {
 
         try {
-            Usuario usuario = new Usuario();
-            usuario.setNomeCompleto(this.getNomeCompleto().toUpperCase().trim());
-            usuario.setEmail(this.getEmail().toLowerCase().trim());
-            usuario.setSenha(converter.stringToMD5(this.getPassword().trim()));
+            Usuario us = new Usuario();
+            us.setNomeCompleto(this.getNomeCompleto().toUpperCase().trim());
+            us.setEmail(this.getEmail().toLowerCase().trim());
+            us.setSenha(converter.stringToMD5(this.getPassword().trim()));
+            us.setDataInicioCadastro(new Date());
+            us.setDataFimCadastro(null);
 
             // FIXADO
             Grupos grupos = new Grupos(4, "ALUNO");
 
-            usuario.setGrupos(grupos);
+            us.setGrupos(grupos);
 
             // Inicia processo de gravacao
-            cadastrarUsuarioFachada.cadastrarUsuarioFachada(usuario);
+            cadastrarUsuarioFachada.cadastrarUsuarioFachada(us);
 
             return "/login.xhtml?faces-redirect=true";
         } catch (Exception e) {

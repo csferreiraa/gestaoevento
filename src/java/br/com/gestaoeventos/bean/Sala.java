@@ -12,6 +12,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -57,6 +59,9 @@ public class Sala implements Serializable {
     private String observacaoSala;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sala")
     private Collection<Evento> eventoCollection;
+    @JoinColumn(name = "id_unidade", referencedColumnName = "id_unidade", nullable = false)
+    @ManyToOne(optional = false)
+    private Unidade unidade;
 
     public Sala() {
     }
@@ -110,6 +115,14 @@ public class Sala implements Serializable {
 
     public void setEventoCollection(Collection<Evento> eventoCollection) {
         this.eventoCollection = eventoCollection;
+    }
+
+    public Unidade getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
 
     @Override
