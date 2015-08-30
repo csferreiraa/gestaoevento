@@ -23,7 +23,6 @@
 
     <h:body>
 
-
         <div class="col-md-12">
 
             <div id="espacoLogo" class="row">
@@ -40,35 +39,52 @@
 
                 <div class="col-md-6" style="margin-top: 1%">
                     <ui:insert name="menu">
-                        <!--h:graphicImage value="/images/logo.png" width="100%"/-->
-
-                        <c:if test="#{loginMB.userLogado}">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Apple</button>
-                                <c:if test="#{loginMB.adminUsr}">
-                                    <button type="button" class="btn btn-primary">Acoes de ADMINISTRADOR</button>
-                                </c:if>
-                                <c:if test="#{loginMB.coordUsr}">
-                                    <button type="button" class="btn btn-primary">Acoes de COORDENADOR</button>
-                                </c:if>
-                                <c:if test="#{loginMB.profUsr}">
-                                    <button type="button" class="btn btn-primary">Acoes de PROFESSOR</button>
-                                </c:if>
-                                <c:if test="#{loginMB.aluUsr}">
-                                    <button type="button" class="btn btn-primary">Acoes de ALUNO</button>
-                                </c:if>
-                                <button type="button" class="btn btn-primary">Samsung</button>
+                        <h:form>
+                            <!--h:graphicImage value="/images/logo.png" width="100%"/-->
+                            <c:if test="#{loginMB.userLogado}">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                        Sony <span class="caret"></span></button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Tablet</a></li>
-                                        <li><a href="#">Smartphone</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </c:if>    
+                                    <h:commandButton value="Inicio" id="btInicio" class="btn btn-primary" action="#{loginMB.retornaInicio}"/>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                            Cadastro <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <c:if test="#{loginMB.adminUsr}">
+                                                <li><a href="#">Usu&aacute;rio</a></li>
+                                            </c:if>
+                                            <c:if test="#{loginMB.adminUsr || loginMB.aluUsr}">
+                                                <li><a href="#">Alterar Usu&aacute;rio</a></li>
+                                            </c:if>
+                                            <c:if test="#{loginMB.adminUsr}">
+                                                <li><a href="#">Unidade</a></li>
+                                                <li><a href="#">Sala</a></li>
+                                                <li><a href="#">Evento</a></li>
+                                                <li><a href="#">Curso</a></li>
+                                            </c:if>
+                                        </ul>
+                                    </div>
+                                    
+                                    <h:commandButton value="Buscar Evento" id="btBuscaEvento" class="btn btn-primary" action="#{loginMB.retornaInicio}"/>
+                                    
+                                    <h:commandButton value="Meus Eventos" id="btMeuEvento" class="btn btn-primary" action="#{loginMB.retornaInicio}"/>
+                                    
+                                    <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
+                                        <div class="btn-group">                                       
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                Relat&oacute;rio <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Usu&aacute;rio</a></li>
+                                                <li><a href="#">Unidade</a></li>
+                                                <li><a href="#">Sala</a></li>
+                                                <li><a href="#">Evento</a></li>
+                                                <li><a href="#">Curso</a></li>
+                                            </ul>
+                                        </div>
+                                    </c:if>
 
+                                </div>
+
+                            </c:if>    
+                        </h:form>
                     </ui:insert>
                 </div>
                 <div class="col-md-3" style="margin-top: 1%" id="pessoaLogada">
