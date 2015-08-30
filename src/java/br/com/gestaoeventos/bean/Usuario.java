@@ -6,19 +6,18 @@
 package br.com.gestaoeventos.bean;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,7 +25,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "usuario", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id_usuario"})})
+@SequenceGenerator(name= "sq_usuario", allocationSize = 1, sequenceName = "public.sq_usuario") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
@@ -49,6 +48,7 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_usuario", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_usuario") 
     private int idUsuario;
     @Basic(optional = false)
     @NotNull
@@ -73,15 +73,9 @@ public class Usuario implements Serializable {
     @Column(name = "data_fim_cadastro")
     @Temporal(TemporalType.DATE)
     private Date dataFimCadastro;
-    @ManyToMany(mappedBy = "usuarioCollection")
-    private Collection<Curso> cursoCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Collection<Inscricao> inscricaoCollection;
     @JoinColumn(name = "id_grupo_usuario", referencedColumnName = "id_grupo", nullable = false)
     @ManyToOne(optional = false)
     private Grupos grupos;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Collection<GrupoUsuario> grupoUsuarioCollection;
 
     public Usuario() {
     }
@@ -145,39 +139,12 @@ public class Usuario implements Serializable {
         this.dataFimCadastro = dataFimCadastro;
     }
 
-    @XmlTransient
-    public Collection<Curso> getCursoCollection() {
-        return cursoCollection;
-    }
-
-    public void setCursoCollection(Collection<Curso> cursoCollection) {
-        this.cursoCollection = cursoCollection;
-    }
-
-    @XmlTransient
-    public Collection<Inscricao> getInscricaoCollection() {
-        return inscricaoCollection;
-    }
-
-    public void setInscricaoCollection(Collection<Inscricao> inscricaoCollection) {
-        this.inscricaoCollection = inscricaoCollection;
-    }
-
     public Grupos getGrupos() {
         return grupos;
     }
 
     public void setGrupos(Grupos grupos) {
         this.grupos = grupos;
-    }
-
-    @XmlTransient
-    public Collection<GrupoUsuario> getGrupoUsuarioCollection() {
-        return grupoUsuarioCollection;
-    }
-
-    public void setGrupoUsuarioCollection(Collection<GrupoUsuario> grupoUsuarioCollection) {
-        this.grupoUsuarioCollection = grupoUsuarioCollection;
     }
 
     @Override
