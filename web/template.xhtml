@@ -51,13 +51,17 @@
                                             <c:if test="#{loginMB.adminUsr}">
                                                 <li><a href="#">Usu&aacute;rio</a></li>
                                             </c:if>
-                                            <c:if test="#{loginMB.adminUsr || loginMB.aluUsr}">
+                                            <c:if test="#{loginMB.adminUsr || loginMB.aluUsr || loginMB.coordUsr}">
                                                 <li><a href="#">Alterar Usu&aacute;rio</a></li>
                                             </c:if>
                                             <c:if test="#{loginMB.adminUsr}">
                                                 <li><a href="#">Unidade</a></li>
                                                 <li><a href="#">Sala</a></li>
+                                            </c:if>
+                                            <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
                                                 <li><a href="#">Evento</a></li>
+                                            </c:if>
+                                            <c:if test="#{loginMB.adminUsr}">
                                                 <li><a href="#">Curso</a></li>
                                             </c:if>
                                         </ul>
