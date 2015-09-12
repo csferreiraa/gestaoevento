@@ -10,11 +10,14 @@ import br.com.gestaoeventos.bean.Usuario;
 import br.com.gestaoeventos.fachada.CadastroUsuarioFachada;
 import br.com.gestaoeventos.fachada.LoginFachada;
 import br.com.gestaoeventos.servicos.Converter;
+import br.com.gestaoeventos.utility.MensagemUtility;
+import static com.sun.faces.facelets.util.Path.context;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -55,7 +58,6 @@ public class LoginMB implements Serializable {
     private static final String PROFESSOR = "PROFESSOR";
     private static final String ALUNO = "ALUNO";
 
-    
     /**
      * Metodo responsavel por realizar o login e redirecionar para tala inicio
      *
@@ -145,6 +147,13 @@ public class LoginMB implements Serializable {
         return "/pages/inicio.xhtml?faces-redirect=true";
     }
 
+    
+    
+    public void error() {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Contact admin."));
+    }
+    
     /**
      * Cadastro de Aluno. Metodo responsavel por preparar o cadastro de um Aluno
      * atraves do proprio Aluno.
@@ -167,9 +176,17 @@ public class LoginMB implements Serializable {
             us.setGrupos(grupos);
 
             // Inicia processo de gravacao
-            cadastrarUsuarioFachada.cadastrarUsuarioFachada(us);
-
-            return "/login.xhtml?faces-redirect=true";
+            try {
+                cadastrarUsuarioFachada.cadastrarUsuarioFachada(us);
+                return "/login.xhtml?faces-redirect=true";
+            } catch (Exception e) {
+                
+              //  MensagemUtility.adicionarMensagemDeErro("conteudoCadExterno", e.getMessage());
+                FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "aaa", "aaa");
+                FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+                return "";
+            }
+            
         } catch (Exception e) {
             return "";
         }
@@ -328,6 +345,6 @@ public class LoginMB implements Serializable {
      */
     public static String getALUNO() {
         return ALUNO;
-    }    
-    
+    }
+
 }

@@ -4,9 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-
-
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
 
         <title>GESTAO DE EVENTOS | LOGIN</title>
@@ -20,6 +19,7 @@
             <ui:define name="content">
 
                 <h:form id="formCadastroAluno">
+
                     <!-- Modal -->
                     <div class="modal fade divCadastroAluno" id="myModal" role="dialog">
                         <div class="modal-dialog modal-lg">
@@ -35,25 +35,48 @@
 
                                 <div class="modal-body">
 
-                                    <h:panelGrid columns="2">
+                                    <h:panelGrid columns="3">
                                         <h:outputLabel value="Nome Completo:"/>
-                                        <h:inputText value="#{loginMB.nomeCompleto}"/>     
+                                        <h:inputText value="#{loginMB.nomeCompleto}" 
+                                                     id="txtNome" 
+                                                     label="Nome" 
+                                                     required="true"
+                                                     maxlength="40">     
+                                            <f:validateLength minimum="3" maximum="40"/>
+                                        </h:inputText>
+                                        <h:message for="txtNome" style="color:red" id="msgNome"/>
+
                                         <h:outputLabel value="" id="vazio1"/>
                                         <h:outputLabel value="" id="vazio2"/>
-                                        <h:outputLabel value="E-mail:"/>
-                                        <h:inputText value="#{loginMB.email}"/>     
                                         <h:outputLabel value="" id="vazio3"/>
+
+                                        <h:outputLabel value="E-mail:"/>
+                                        <h:inputText value="#{loginMB.email}" id="txtMailCadastro" label="E-mail" required="true">
+                                            <f:validateLength minimum="3" maximum="50"/>
+                                        </h:inputText>
+                                        <h:message for="txtMailCadastro" style="color:red" id="msgEmailCadastro"/>
+
                                         <h:outputLabel value="" id="vazio4"/>
+                                        <h:outputLabel value="" id="vazio5"/>
+                                        <h:outputLabel value="" id="vazio6"/>
+
                                         <h:outputLabel value="Senha: "/>
-                                        <h:inputSecret value="#{loginMB.password}"/>
+                                        <h:inputSecret value="#{loginMB.password}" id="txtSenhaCadastro" label="Senha" required="true">
+                                            <f:validateLength minimum="3" maximum="32"/>
+                                        </h:inputSecret>
+                                        <h:message for="txtSenhaCadastro" style="color:red" id="msgSenhaCadastro"/>
                                     </h:panelGrid>
+
                                 </div>
 
                                 <div class="modal-footer">
                                     <h:commandButton class="btn btn-success" 
                                                      value="Cadastrar"
-                                                     action="#{loginMB.cadastrarAlunoPorAluno}">
-                                        <f:ajax execute="@form" render="myModal"/>
+                                                     action="#{loginMB.cadastrarAlunoPorAluno}"
+                                                     onclick="if (!confirm('Deseja Confirmar o Cadastro ?')) {
+                                                                 return false;
+                                                             }">
+                                        <f:ajax execute="@form" render="myModal msgNome msgEmailCadastro msgSenhaCadastro txtSenhaCadastro" />
                                     </h:commandButton>
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
                                 </div>
@@ -69,20 +92,33 @@
 
                     <h:form> 
                         <center>
-                            <h:panelGrid columns="2">
+
+                            <h:panelGrid columns="3">
                                 <h:outputLabel value="E-mail:"/>
-                                <h:inputText value="#{loginMB.email}"/>     
+                                <h:inputText value="#{loginMB.email}" id="txtEmail" label="E-mail" required="true" requiredMessage="Poe a porra do email aqui, pq o creitu precisa disso pra loga" pt:placeholder="Digite o e-mail">
+                                    <f:validateLength minimum="3" maximum="50"/>
+                                </h:inputText>
+                                <h:message for="txtEmail" style="color:red" />
+
                                 <h:outputLabel value="" id="vazio1"/>
                                 <h:outputLabel value="" id="vazio2"/>
+                                <h:outputLabel value="" id="vazio3"/>
+
+
                                 <h:outputLabel value="Senha: "/>
-                                <h:inputSecret value="#{loginMB.password}"/>
+                                <h:inputSecret value="#{loginMB.password}" id="txtSenha" label="Senha" required="true" pt:placeholder="Digite a senha">
+                                    <f:validateLength minimum="3" maximum="32"/>
+                                </h:inputSecret>    
+                                <h:message for="txtSenha" style="color: red" />
+
                             </h:panelGrid>
 
                             <br/>
 
-                            <h:commandButton value="Entrar" 
+                            <h:commandButton value="Entrar"
                                              class="btn btn-sm btn-primary" 
-                                             action="#{loginMB.efetuarLoginMB}">
+                                             action="#{loginMB.efetuarLoginMB()}"
+                                             rendered="true">
                             </h:commandButton>
                             &nbsp;
                             <!--h:commandButton value="Cadastro" class="btn btn-primary"/-->

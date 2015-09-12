@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="/template.xhtml">
+
+            <ui:define name="content">
+
+                <div class="row">
+                    <div style="border-style: outset; margin-top: 3em;" 
+                         class="col-lg-6 col-md-offset-3"> <!--tamanho 6 iniciando no fim da posicao 3-->
+                        <h:form id="frmCadastroUsuario">
+                            <h:panelGrid id="gridCadastroUsr" columns="3">
+                                <h:outputLabel value="" id="vazio1"/>
+                                <h:outputLabel value="" id="vazio2"/>
+                                <h:outputLabel value="" id="vazio3"/>
+                                <h:outputLabel value="Nome do Usuário" 
+                                               id="lblNmCompl"/>
+                                <h:inputText id="txtLblNmCompl"
+                                             label="Nome Completo"
+                                             pt:placeholder="Digite o Nome Completo"
+                                             required="true"
+                                             size="50"
+                                             maxlength="40"
+                                             requiredMessage="O nome é obrigatório">
+                                    <f:validateLength minimum="3" maximum="40"/>
+                                </h:inputText>
+                                <h:message for="txtLblNmCompl" style="color: red" />
+
+                                <h:outputLabel value="" id="vazio4"/>
+                                <h:outputLabel value="" id="vazio5"/>
+                                <h:outputLabel value="" id="vazio6"/>
+
+                                <h:outputLabel value="E-mail" 
+                                               id="lblMail"/>
+                                <h:inputText id="txtEmail"
+                                             label="E-mail"
+                                             pt:placeholder="Digite o E-mail (Login de acesso)"
+                                             required="true"
+                                             size="50"
+                                             maxlength="50"
+                                             requiredMessage="O e-mail é obrigatório">
+                                    <f:validateLength minimum="3" maximum="50"/>
+                                </h:inputText>
+                                <h:message for="txtEmail" style="color: red" />
+                                
+                                <h:outputLabel value="" id="vazio7"/>
+                                <h:outputLabel value="" id="vazio8"/>
+                                <h:outputLabel value="" id="vazio9"/>
+                                
+                                <h:outputLabel value="Grupo" 
+                                               id="lbGrupo"/>
+                                <h:inputText id="txtGrupo"
+                                             label="Grupo de Acesso"
+                                             pt:placeholder="Digite o Grupo do Usuário"
+                                             required="true"
+                                             size="20"
+                                             maxlength="20"
+                                             requiredMessage="O grupo é obrigatório">
+                                    <f:validateLength minimum="3" maximum="20"/>
+                                </h:inputText>
+                                <h:message for="txtGrupo" style="color: red" />
+
+                            </h:panelGrid>
+
+                            <br/><br/>
+                            <center>
+                                <h:commandButton value="Cadastrar" class="btn btn-primary btn-sm"/>
+                            </center>
+                            <br/>
+                        </h:form>
+                    </div>
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

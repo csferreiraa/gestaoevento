@@ -5,8 +5,11 @@
  */
 package br.com.gestaoeventos.fachada;
 
+import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
 import br.com.gestaoeventos.dao.UsuarioDAO;
+import br.com.gestaoeventos.exceptions.UsuarioExistenteException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -19,15 +22,37 @@ public class CadastroUsuarioFachada {
     
     @EJB
     private UsuarioDAO usuarioDAO;
+    private static final String EMAIL_EXISTENTE = "J&aacute; existe outro usu&aacute; com o mesmo e-mail cadastrado na base de dados";
     
     /**
      * Cadastro Usuario Fachada. Metodo responsavel por executar o DAO para 
      * gravar o usuario.
      * 
      * @param usuario 
+     * @throws br.com.gestaoeventos.exceptions.UsuarioExistenteException 
+     * @throws java.lang.Exception 
      */
-    public void cadastrarUsuarioFachada(Usuario usuario) throws Exception{
-        usuarioDAO.cadastrarUsuario(usuario);
+    public void cadastrarUsuarioFachada(Usuario usuario) throws UsuarioExistenteException, Exception {
+        
+        // Verifica se ja existe o mesmo email cadastrado na base de dados.
+        List<Usuario> lstUsuario = usuarioDAO.verificarExistenciaUsuario(usuario);
+        
+        if(0 == lstUsuario.size()){
+            usuarioDAO.cadastrarUsuario(usuario);
+        } else {
+            throw new UsuarioExistenteException(EMAIL_EXISTENTE);
+        }
+        
+    }
+    
+    /**
+     * Recuperar Grupos de Usuario do sistema. Metodo responsavel por recuperar
+     * os Grupos de Usuario para cadastro de um Novo Usuario
+     * 
+     * @return List<Grupousuario>
+     */
+    public List<Grupos> retrieveGruposFachada(){
+        return usuarioDAO.retrieveGruposDAO();
     }
     
 }

@@ -34,7 +34,7 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>flick</param-value>
     </context-param-->
-    
+        
     
     <!--Informacoes para login-->
     <!-- O metodo pelo qual sera feita a autenticacao-->
@@ -82,7 +82,8 @@
         <web-resource-collection>
             <web-resource-name>Administradores e Coordenadores</web-resource-name>
             <description />
-            <url-pattern>/pages/*</url-pattern>
+            <url-pattern>/pages/inicio.xhtml</url-pattern>
+            <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Adminstradores e Coordenadores</description>
@@ -97,6 +98,7 @@
             <web-resource-name>Somente Professores</web-resource-name>
             <description />
             <url-pattern>/pages/inicio.xhtml</url-pattern>
+            <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Professores</description>
@@ -112,6 +114,7 @@
             <web-resource-name>Alunos e demais perfis de acesso</web-resource-name>
             <description />
             <url-pattern>/pages/inicio.xhtml</url-pattern>
+            <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Todos</description>

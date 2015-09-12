@@ -13,7 +13,16 @@
     margin-top: 8em; 
 }
 
-
+.circulo-teste{
+    width: 550px;
+    height: 350px;
+    background-color: snow;
+    border-style: solid; 
+    border-color: #045491; 
+    border-radius: 10px; /*(padrão)*/
+    -moz-border-radius: 80px; /*(navegadores Flock e Firefox)*/
+    -webkit-border-radius: 80px; /*(navegadores Chrome e Safari)*/
+}
 
 
 

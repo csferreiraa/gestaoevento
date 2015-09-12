@@ -7,8 +7,12 @@ package br.com.gestaoeventos.exceptions;
 
 /**
  *
- * @author godoyeve
+ * @author cleiton
  */
-public class ErroLoginException extends Exception{
+public class UsuarioExistenteException extends Exception{
+    
+    public UsuarioExistenteException(String mensagemErro){
+        super(mensagemErro);
+    }
     
 }

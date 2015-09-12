@@ -5,7 +5,10 @@
  */
 package br.com.gestaoeventos.dao;
 
+import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -43,6 +46,7 @@ public class UsuarioDAO {
      * Gravar Usuario. Metodo responsavel por gravar o usuario na Base de Dados
      *
      * @param usuario
+     * @throws java.lang.Exception
      */
     public void cadastrarUsuario(Usuario usuario) throws Exception {
         try {
@@ -52,6 +56,31 @@ public class UsuarioDAO {
             throw new Exception();
         }
 
+    }
+
+    /**
+     * Verifica Existencia de Usuario. Metodo responsavel por verificar se o
+     * email do usuario ja esta cadastrado na base de dados.
+     *
+     * @param usuario
+     * @return Integer
+     */
+    public List<Usuario> verificarExistenciaUsuario(Usuario usuario) {
+        
+        List<Usuario> lstUs = new ArrayList<Usuario>();
+        
+        lstUs = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email").setParameter("email", usuario.getEmail()).getResultList();
+
+        return lstUs;
+       
+    }
+    
+    public List<Grupos> retrieveGruposDAO(){
+        List<Grupos> lstGrp = new ArrayList<Grupos>();
+        
+        lstGrp = em.createQuery("SELECT G FROM Grupos G").getResultList();
+        
+        return lstGrp;
     }
 
 }

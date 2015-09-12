@@ -29,10 +29,10 @@
                 <div class="col-md-3">
                     <ui:insert name="top">
                         <b>
-                            <!--h:graphicImage value="/images/logo.png" width="100%"/--> 
+                            <h:graphicImage value="/images/pessoas.gif" height="90px" width="350px"/>
+                            <!--TOPO<br/>
                             TOPO<br/>
-                            TOPO<br/>
-                            TOPO
+                            TOPO-->
                         </b>
                     </ui:insert>
                 </div>
@@ -49,7 +49,10 @@
                                             Cadastro <span class="caret"></span></button>
                                         <ul class="dropdown-menu" role="menu">
                                             <c:if test="#{loginMB.adminUsr}">
-                                                <li><a href="#">Usu&aacute;rio</a></li>
+                                                <!--li><a href="#">Usu&aacute;rio</a></li-->
+                                                <li><h:commandLink value="Usu&aacute;rio"
+                                                                   actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
+                                                                   action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/></li>
                                             </c:if>
                                             <c:if test="#{loginMB.adminUsr || loginMB.aluUsr || loginMB.coordUsr}">
                                                 <li><a href="#">Alterar Usu&aacute;rio</a></li>
