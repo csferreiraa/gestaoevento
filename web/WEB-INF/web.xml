@@ -2,7 +2,8 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
+        <!--param-value>Development</param-value-->
+        <param-value>Production</param-value>
     </context-param>
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
@@ -16,7 +17,7 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <!--url-pattern>/faces/*</url-pattern-->
-        <url-pattern>*.xhtml</url-pattern>
+        <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -26,7 +27,7 @@
     <!--Pagina Inicial-->
     <welcome-file-list>
         <!--welcome-file>faces/login.xhtml</welcome-file-->
-        <welcome-file>login.xhtml</welcome-file>
+        <welcome-file>login.jsf</welcome-file>
     </welcome-file-list>
     
     <!-- Primefaces Theme>
@@ -42,8 +43,8 @@
         <auth-method>FORM</auth-method>
         <realm-name>GestaoEventoRealm</realm-name>
         <form-login-config>
-            <form-login-page>/login.xhtml</form-login-page>
-            <form-error-page>/login.xhtml</form-error-page>
+            <form-login-page>/login.jsf</form-login-page>
+            <form-error-page>/login.jsf</form-error-page>
         </form-login-config>
     </login-config>
     
@@ -82,7 +83,7 @@
         <web-resource-collection>
             <web-resource-name>Administradores e Coordenadores</web-resource-name>
             <description />
-            <url-pattern>/pages/inicio.xhtml</url-pattern>
+            <url-pattern>/pages/inicio.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -97,7 +98,7 @@
         <web-resource-collection>
             <web-resource-name>Somente Professores</web-resource-name>
             <description />
-            <url-pattern>/pages/inicio.xhtml</url-pattern>
+            <url-pattern>/pages/inicio.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -113,7 +114,7 @@
         <web-resource-collection>
             <web-resource-name>Alunos e demais perfis de acesso</web-resource-name>
             <description />
-            <url-pattern>/pages/inicio.xhtml</url-pattern>
+            <url-pattern>/pages/inicio.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -129,7 +130,7 @@
     <error-page>
         <!-- Forbidden directory listing -->
         <error-code>403</error-code>
-        <location>/pages/error/forbidden.xhtml</location>
+        <location>/pages/error/forbidden.jsf</location>
     </error-page>
 
     
