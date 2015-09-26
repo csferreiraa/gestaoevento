@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="/template.xhtml">
+
+            
+            <ui:define name="location">
+                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Cadastro de Sala" id="lbCadUnid"/></b>
+            </ui:define>
+            
+            <ui:define name="content">
+
+                <div class="row">
+                    <div style="border-style: outset; margin-top: 3em;" 
+                         class="col-lg-6 col-md-offset-3"> <!--tamanho 6 iniciando no fim da posicao 3-->
+                        <h:form id="frmCadastroSala">
+                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" /> 
+
+                            <h:panelGrid id="gridCadastroSala" columns="3">
+                                <h:outputLabel value="" id="vazio1"/>
+                                <h:outputLabel value="" id="vazio2"/>
+                                <h:outputLabel value="" id="vazio3"/>
+
+                                <h:outputLabel value="Nome da Sala" 
+                                               id="lblNomeSala"/>
+                                <h:inputText id="txtNomeSala"
+                                             label="Nome da Sala"
+                                             pt:placeholder="Digite o Nome da Sala"
+                                             required="true"
+                                             size="20"
+                                             maxlength="20"
+                                             value="#{cadastroSalaMB.nomeSala}"
+                                             requiredMessage="O nome da Sala é obrigatório">
+                                    <f:validateLength minimum="3" maximum="40"/>
+                                </h:inputText>
+                                <h:message for="txtNomeSala" style="color: red" />
+
+                                <h:outputLabel value="" id="vazio4"/>
+                                <h:outputLabel value="" id="vazio5"/>
+                                <h:outputLabel value="" id="vazio6"/>
+
+                                <h:outputLabel value="Capacidade" 
+                                               id="lblCapacidadeMaxima"/>
+                                <h:inputText id="txtCapacidadeSala"
+                                             label="Capacidade"
+                                             pt:placeholder="999"
+                                             value="#{cadastroSalaMB.capacidadeMaxima}"
+                                             size="10"
+                                             maxlength="10"
+                                             required="true"
+                                             requiredMessage="Favor Informar a Capacidade de Pessoas" 
+                                             converterMessage="O valor informado é inválido para o campo"
+                                             validatorMessage="A capacidade deve deve possuir de 1 a 3 dígitos">
+                                    <f:validateLength minimum="1" maximum="3"/>
+                                </h:inputText>
+                                <h:message for="txtCapacidadeSala" style="color: red" />
+
+
+                                <h:outputLabel value="" id="vazio7"/>
+                                <h:outputLabel value="" id="vazio8"/>
+                                <h:outputLabel value="" id="vazio9"/>
+
+                                <h:outputLabel value="Observa&ccedil;&atilde;o" 
+                                               id="lblObsSala"/>
+                                <h:inputTextarea id="txtObsSala"
+                                                 label="Observação"
+                                                 pt:placeholder="Campo para adicionar observações da sala"
+                                                 rows="5"
+                                                 cols="60"
+                                                 value="#{cadastroSalaMB.observacaoSala}">
+                                    <f:validateLength maximum="200"/>
+                                </h:inputTextarea>
+                                <p:message for="txtObsSala" style="color: red"/>
+
+
+                                <h:outputLabel value="" id="vazio10"/>
+                                <h:outputLabel value="" id="vazio11"/>
+                                <h:outputLabel value="" id="vazio12"/>
+
+
+                                <h:outputLabel value="Unidade" 
+                                               id="lblUnidadeAssociadaSala"/>
+                                <h:selectOneMenu value="#{cadastroSalaMB.idUnidade}" class="btn bg-info btn-sm">  
+                                    <f:selectItems value="#{cadastroSalaMB.lstUnidade}" 
+                                                   var="unidades"
+                                                   itemValue="#{unidades.idUnidade}" 
+                                                   itemLabel="#{unidades.nomeUnidade}"
+                                                   noSelectionValue="Selecione uma Unidade" />
+                                </h:selectOneMenu>
+
+
+
+                            </h:panelGrid>
+
+                            <br/>
+                            <center>
+
+                                <p:commandButton value="Cadastrar" 
+                                                 class="btn btn-primary btn-sm"
+                                                 onclick="if (!confirm('Deseja Confirmar o Cadastro ?')) {
+                                                             return false;
+                                                         }"
+                                                         action="#{cadastroSalaMB.iniciaCadastroSala}" 
+                                                 update="growl txtNomeSala txtCapacidadeSala gridCadastroSala" />  
+
+                            </center>
+                            <br/>
+                        </h:form>
+                    </div>
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

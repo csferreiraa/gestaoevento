@@ -11,12 +11,18 @@
 
         <ui:composition template="/template.xhtml">
 
+            <ui:define name="location">
+                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Cadastro de Unidade" id="lbCadUnid"/></b>
+            </ui:define>
+
+
             <ui:define name="content">
-                
+
                 <div class="row">
                     <div style="border-style: outset; margin-top: 3em;" 
                          class="col-lg-6 col-md-offset-3"> <!--tamanho 6 iniciando no fim da posicao 3-->
-                        <h:form id="frmCadastroUsuario">
+                        <h:form id="frmCadastroUnidade">
+                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" /> 
                             <h:panelGrid id="gridCadastroUnidade" columns="3">
                                 <h:outputLabel value="" id="vazio1"/>
                                 <h:outputLabel value="" id="vazio2"/>
@@ -24,7 +30,7 @@
 
                                 <h:outputLabel value="Nome da Unidade" 
                                                id="lblNomeUnidade"/>
-                                <h:inputText id="txtLblNomeUnidade"
+                                <h:inputText id="txtNomeUnidade"
                                              label="Nome da Unidade"
                                              pt:placeholder="Digite o Nome da Unidadae"
                                              required="true"
@@ -34,7 +40,7 @@
                                              requiredMessage="O nome da Unidade é obrigatório">
                                     <f:validateLength minimum="3" maximum="40"/>
                                 </h:inputText>
-                                <h:message for="txtLblNomeUnidade" style="color: red" />
+                                <h:message for="txtNomeUnidade" style="color: red" />
 
                                 <h:outputLabel value="" id="vazio4"/>
                                 <h:outputLabel value="" id="vazio5"/>
@@ -42,21 +48,21 @@
 
                                 <h:outputLabel value="Descri&ccedil;&atilde;o" 
                                                id="lblDescricaoUnidade"/>
-                                <h:inputTextarea id="txtDescricaoUnidade"
-                                             label="Descri&ccedil;&atilde;o"
-                                             pt:placeholder="Descri&ccedil;&atilde;o da Unidade"
-                                             rows="5"
-                                             cols="60"
-                                             value="#{cadastroUnidadeMB.descricaoUnidade}">
+                                <h:inputTextarea id="txtObservacaoUnidade"
+                                                 label="Descri&ccedil;&atilde;o"
+                                                 pt:placeholder="Descri&ccedil;&atilde;o da Unidade"
+                                                 rows="5"
+                                                 cols="60"
+                                                 value="#{cadastroUnidadeMB.observcaoUnidade}">
                                     <f:validateLength minimum="0" maximum="200"/>
                                 </h:inputTextarea>
-                                <h:message for="txtDescricaoUnidade" style="color: red" />
+                                <p:message for="txtObservacaoUnidade" style="color: red"/>
 
                                 <h:outputLabel value="" id="vazio7"/>
                                 <h:outputLabel value="" id="vazio8"/>
                                 <h:outputLabel value="" id="vazio9"/>
 
-                                
+
 
                             </h:panelGrid>
 
@@ -70,22 +76,23 @@
 
                             <br/>
                             <center>
-                                <h:commandButton value="Cadastrar" 
-                                                 class="btn btn-primary btn-sm" 
-                                                 action="#{cadastroUnidadeMB.iniciaCadastroUnidade}"
+
+                                <p:commandButton value="Cadastrar" 
+                                                 class="btn btn-primary btn-sm"
                                                  onclick="if (!confirm('Deseja Confirmar o Cadastro ?')) {
                                                              return false;
-                                                         }">
-                                </h:commandButton>
-                                
+                                                         }"
+                                                 action="#{cadastroUnidadeMB.iniciaCadastroUnidade}" 
+                                                 update="growl txtNomeUnidade txtObservacaoUnidade frmCadastroUnidade" />  
+
                             </center>
                             <br/>
                         </h:form>
                     </div>
                 </div>
-                
-                
-                
+
+
+
             </ui:define>
 
         </ui:composition>

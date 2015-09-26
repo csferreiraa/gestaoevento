@@ -11,10 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -29,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "unidade", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nome_unidade"})})
+@SequenceGenerator(name= "sq_unidade_universidade", allocationSize = 1, sequenceName = "public.sq_unidade_universidade") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Unidade.findAll", query = "SELECT u FROM Unidade u"),
@@ -41,6 +45,7 @@ public class Unidade implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_unidade", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_unidade_universidade") 
     private Integer idUnidade;
     @Basic(optional = false)
     @NotNull

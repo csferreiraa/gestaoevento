@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -54,19 +55,6 @@ public class CadastroUsuarioMB implements Serializable{
 
     }
 
-    public void fazCoisaUm() {
-        System.out.println("ssssssss");
-    }
-    
-    public void fazCoisaDois() throws Exception {
-        
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            System.out.println("Deu ERRO, nao vai exibir a chamada do fazCoisaUm()");
-        }
-    }
-
     
     /**Recuperar Grupos. Metodo responsavel por recuperar os Grupos existentes
      * 
@@ -89,7 +77,7 @@ public class CadastroUsuarioMB implements Serializable{
     public void iniciaCadastroUsuario(){
         Usuario us = new Usuario();
         
-        us.setNomeCompleto(getNomeCompleto());
+        us.setNomeCompleto(getNomeCompleto().toUpperCase());
         us.setEmail(getEmail());
         
         Grupos grupos = new Grupos();
@@ -102,6 +90,10 @@ public class CadastroUsuarioMB implements Serializable{
         us.setDataInicioCadastro(new Date());
         
         System.out.println("Senha gerada " + getSenhaGerada());
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Cadastro do usuário " + getNomeCompleto().toUpperCase() + " realizado") );
+        
 
         try {
             cadastrarUsuarioFachada.cadastrarUsuarioFachada(us);
@@ -109,13 +101,7 @@ public class CadastroUsuarioMB implements Serializable{
             Logger.getLogger(CadastroUsuarioMB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void nada(){
-        System.out.println("nada nada nada");
-        FacesContext.getCurrentInstance().addMessage("test", new javax.faces.application.FacesMessage("Successful"));
-    }
-    
-    
+        
     /**
      * Redirecionar para Cadastro de Usuario. Metodo responsavel por direcionar
      * o usuario logado para a pagina de cadastro de novos usuarios

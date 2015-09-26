@@ -22,8 +22,8 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class UsuarioDAO {
 
-    @EJB
-    private UsuarioDAO usuarioDAO;
+    //@EJB
+    //private UsuarioDAO usuarioDAO;
 
     @PersistenceContext
     private EntityManager em;
@@ -31,7 +31,7 @@ public class UsuarioDAO {
     /**
      * Retorna um Usuario com o Grupo Acesso para utilizacao apos o Login
      *
-     * @param nomeCompleto
+     * @param email
      * @return Usuario
      */
     public Usuario getUserByName(String email) {
