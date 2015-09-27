@@ -5,13 +5,17 @@
  */
 package br.com.gestaoeventos.mbean;
 
+import br.com.gestaoeventos.bean.Sala;
 import br.com.gestaoeventos.bean.Unidade;
+import br.com.gestaoeventos.exceptions.SalaExistenteException;
 import br.com.gestaoeventos.fachada.CadastroSalaFachada;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -34,18 +38,35 @@ public class CadastroSalaMB {
  
     public void iniciaCadastroSala(){
         
-        Unidade unidade = new Unidade();
+        Sala sala = new Sala();
+        sala.setNomeSala(getNomeSala().toUpperCase().trim());
+        sala.setCapacidadeMaximaPessoas(getCapacidadeMaxima());
+        sala.setObservacaoSala(getObservacaoSala());
+        sala.setUnidade(new Unidade(getIdUnidade()));
         
-        System.out.println("Nome sala " + getNomeSala());
-        System.out.println("Capacidade " + getCapacidadeMaxima());
-        System.out.println("Observacao " + getObservacaoSala());
-        System.out.println("Unidade " + getIdUnidade());
+        try {
+            cadastroSalaFachada.cadastrarSalaFachada(sala);
+           
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Sala " + sala.getNomeSala() + " foi cadastrada.") );
+            
+            setCapacidadeMaxima(null);
+            setObservacaoSala(null);
+            
+        } catch (SalaExistenteException see) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",  see.getMessage() + " - Sala: " + sala.getNomeSala()) );
+        }
+        
     }
     
     /**
      * Recuperar Unidade. Metodo responsavel por recuperar as Unidade existentes
      */
     public void recuperaListaUnidadeListener(){
+        setNomeSala(null);
+        setCapacidadeMaxima(null);
+        setObservacaoSala(null);
         setLstUnidade(cadastroSalaFachada.retrieveUnidadeSalaFachada());
     }
     

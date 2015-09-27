@@ -62,11 +62,13 @@
                                                                    actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
                                                                    action="#{cadastroSalaMB.returnPageCadastrarSala}"/></li>
                                             </c:if>
-                                            <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
-                                                <li><a href="#">Evento</a></li>
-                                            </c:if>
                                             <c:if test="#{loginMB.adminUsr}">
-                                                <li><a href="#">Curso</a></li>
+                                                <li><h:commandLink value="Curso"
+                                                                   action="#{cadastroCursoMB.returnPageCadastrarCurso}"/></li>
+                                            </c:if>
+                                            <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
+                                                <li><h:commandLink value="Evento"
+                                                                   action="#{cadastroEventoMB.returnPageCadastrarEvento}"/></li>
                                             </c:if>
                                         </ul>
                                     </div>

@@ -28,20 +28,12 @@ public class CadastroUsuarioFachada {
      * Cadastro Usuario Fachada. Metodo responsavel por executar o DAO para 
      * gravar o usuario.
      * 
-     * @param usuario 
-     * @throws br.com.gestaoeventos.exceptions.UsuarioExistenteException 
-     * @throws java.lang.Exception 
+     * @param usuario
+     * @throws br.com.gestaoeventos.exceptions.UsuarioExistenteException
      */
-    public void cadastrarUsuarioFachada(Usuario usuario) throws UsuarioExistenteException, Exception {
-        
-        // Verifica se ja existe o mesmo email cadastrado na base de dados.
-        List<Usuario> lstUsuario = usuarioDAO.verificarExistenciaUsuario(usuario);
-        
-        if(0 == lstUsuario.size()){
-            usuarioDAO.cadastrarUsuario(usuario);
-        } else {
-            throw new UsuarioExistenteException(EMAIL_EXISTENTE);
-        }
+    public void cadastrarUsuarioFachada(Usuario usuario) throws UsuarioExistenteException {
+
+       usuarioDAO.cadastrarUsuario(usuario);
         
     }
     

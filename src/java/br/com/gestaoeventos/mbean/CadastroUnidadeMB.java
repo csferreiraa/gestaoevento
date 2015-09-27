@@ -48,7 +48,7 @@ public class CadastroUnidadeMB {
         try {
             cadastroUnidadeFachada.cadastrarUnidadeFachada(unidade);
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Cadastro da unidade " + nomeMsg.trim() + " realizado") );
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Cadastro da unidade " + nomeMsg.trim() + " realizado.") );
             setNomeUnidade(null);
             setObservcaoUnidade(null);
         } catch (UnidadeExistenteException uee) {
@@ -66,6 +66,8 @@ public class CadastroUnidadeMB {
      * @return String
      */
     public String returnPageCadastrarUnidade(){
+        setNomeUnidade(null);
+        setObservcaoUnidade(null);
         return "/pages/cadastro/unidade/cadastroUnidade.xhtml?faces-redirect=true";
     }
 

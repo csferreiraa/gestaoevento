@@ -7,6 +7,7 @@ package br.com.gestaoeventos.mbean;
 
 import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
+import br.com.gestaoeventos.exceptions.UsuarioExistenteException;
 import br.com.gestaoeventos.fachada.CadastroUsuarioFachada;
 import br.com.gestaoeventos.servicos.Converter;
 import br.com.gestaoeventos.servicos.GeraSenha;
@@ -14,8 +15,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -38,6 +37,7 @@ public class CadastroUsuarioMB implements Serializable{
     private Converter converter;
     @EJB
     private GeraSenha geraSenha;
+    private Boolean mostraSenha = Boolean.TRUE;
     
     
     // Montando Usuario
@@ -56,17 +56,13 @@ public class CadastroUsuarioMB implements Serializable{
     }
 
     
-    /**Recuperar Grupos. Metodo responsavel por recuperar os Grupos existentes
-     * 
+    /**
+     * Recuperar Grupos. Metodo responsavel por recuperar os Grupos existentes
      */
     public void recuperaListaGruposListener(){
-        setLstGrupos(cadastrarUsuarioFachada.retrieveGruposFachada());
-        System.out.println("Tamanho da lista " + getLstGrupos().size());
-        
-        for(Grupos g : getLstGrupos()){
-            System.out.println("ID " + g.getIdGrupo() + " Nome Grupo " + g.getDescricaoGrupo());
-        }
-        
+        setNomeCompleto(null);
+        setEmail(null);        
+        setLstGrupos(cadastrarUsuarioFachada.retrieveGruposFachada());      
     }
     
     /**
@@ -78,7 +74,7 @@ public class CadastroUsuarioMB implements Serializable{
         Usuario us = new Usuario();
         
         us.setNomeCompleto(getNomeCompleto().toUpperCase());
-        us.setEmail(getEmail());
+        us.setEmail(getEmail().toLowerCase().trim());
         
         Grupos grupos = new Grupos();
         grupos.setIdGrupo(getIdGrupo());
@@ -88,18 +84,20 @@ public class CadastroUsuarioMB implements Serializable{
         us.setSenha(converter.stringToMD5(getSenhaGerada()));
         
         us.setDataInicioCadastro(new Date());
-        
-        System.out.println("Senha gerada " + getSenhaGerada());
-        
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Cadastro do usuário " + getNomeCompleto().toUpperCase() + " realizado") );
-        
 
         try {
             cadastrarUsuarioFachada.cadastrarUsuarioFachada(us);
-        } catch (Exception ex) {
-            Logger.getLogger(CadastroUsuarioMB.class.getName()).log(Level.SEVERE, null, ex);
+            setMostraSenha(Boolean.TRUE);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Cadastro do Usuário " + us.getNomeCompleto().trim() + " realizado. Senha " + getSenhaGerada()) );
+            
+        } catch (UsuarioExistenteException uee) {
+            setMostraSenha(Boolean.FALSE);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",  uee.getMessage() + " - E-mail: " + getEmail().toLowerCase()) );
+            //Logger.getLogger(CadastroUsuarioMB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
         
     /**
@@ -195,6 +193,21 @@ public class CadastroUsuarioMB implements Serializable{
     public void setSenhaGerada(String senhaGerada) {
         this.senhaGerada = senhaGerada;
     }
+
+    /**
+     * @return the mostraSenha
+     */
+    public Boolean getMostraSenha() {
+        return mostraSenha;
+    }
+
+    /**
+     * @param mostraSenha the mostraSenha to set
+     */
+    public void setMostraSenha(Boolean mostraSenha) {
+        this.mostraSenha = mostraSenha;
+    }
+
 
 
     

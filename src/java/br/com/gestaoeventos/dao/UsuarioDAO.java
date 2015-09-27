@@ -7,6 +7,7 @@ package br.com.gestaoeventos.dao;
 
 import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
+import br.com.gestaoeventos.exceptions.UsuarioExistenteException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,6 +28,8 @@ public class UsuarioDAO {
 
     @PersistenceContext
     private EntityManager em;
+    
+    private static final String USUARIO_EXISTENTE = "JÁ EXISTE UM USUÁRIO CADASTRADO COM O MESMO E-MAIL";
 
     /**
      * Retorna um Usuario com o Grupo Acesso para utilizacao apos o Login
@@ -46,15 +49,14 @@ public class UsuarioDAO {
      * Gravar Usuario. Metodo responsavel por gravar o usuario na Base de Dados
      *
      * @param usuario
-     * @throws java.lang.Exception
+     * @throws br.com.gestaoeventos.exceptions.UsuarioExistenteException
      */
-    public void cadastrarUsuario(Usuario usuario) throws Exception {
-        try {
-            em.persist(usuario);
-            em.flush();
-        } catch (Exception e) {
-            throw new Exception();
-        }
+    public void cadastrarUsuario(Usuario usuario) throws UsuarioExistenteException {
+            
+        verificarExistenciaUsuario(usuario);
+        
+        em.persist(usuario);
+        em.flush();
 
     }
 
@@ -63,18 +65,24 @@ public class UsuarioDAO {
      * email do usuario ja esta cadastrado na base de dados.
      *
      * @param usuario
-     * @return Integer
+     * @throws br.com.gestaoeventos.exceptions.UsuarioExistenteException
      */
-    public List<Usuario> verificarExistenciaUsuario(Usuario usuario) {
-        
-        List<Usuario> lstUs = new ArrayList<Usuario>();
-        
-        lstUs = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email").setParameter("email", usuario.getEmail()).getResultList();
+    public void verificarExistenciaUsuario(Usuario usuario) throws UsuarioExistenteException {
+ 
+        List<Usuario> lstUs = em.createQuery("SELECT u FROM Usuario u WHERE u.email = :email").setParameter("email", usuario.getEmail().trim().toLowerCase()).getResultList();
 
-        return lstUs;
-       
+        if(!lstUs.isEmpty()){
+            throw new UsuarioExistenteException(USUARIO_EXISTENTE);
+        }
+
     }
     
+    /**
+     * Popular Grupos para Cadastro de Usuario. Metodo que recupera os grupos de
+     * Usuario para o cadastro dos novos por um Administrador
+     * 
+     * @return 
+     */
     public List<Grupos> retrieveGruposDAO(){
         List<Grupos> lstGrp = new ArrayList<Grupos>();
         

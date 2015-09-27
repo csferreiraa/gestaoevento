@@ -6,23 +6,22 @@
 package br.com.gestaoeventos.bean;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,7 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "sala", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"nome_sala"})})
+    @UniqueConstraint(columnNames = {"nome_sala", "id_unidade"})})
+@SequenceGenerator(name= "sq_sala_universidade", allocationSize = 1, sequenceName = "public.sq_sala_universidade") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sala.findAll", query = "SELECT s FROM Sala s"),
@@ -44,6 +44,7 @@ public class Sala implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_sala", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_sala_universidade") 
     private Integer idSala;
     @Basic(optional = false)
     @NotNull
@@ -57,8 +58,6 @@ public class Sala implements Serializable {
     @Size(max = 200)
     @Column(name = "observacao_sala", length = 200)
     private String observacaoSala;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sala")
-    private Collection<Evento> eventoCollection;
     @JoinColumn(name = "id_unidade", referencedColumnName = "id_unidade", nullable = false)
     @ManyToOne(optional = false)
     private Unidade unidade;
@@ -106,15 +105,6 @@ public class Sala implements Serializable {
 
     public void setObservacaoSala(String observacaoSala) {
         this.observacaoSala = observacaoSala;
-    }
-
-    @XmlTransient
-    public Collection<Evento> getEventoCollection() {
-        return eventoCollection;
-    }
-
-    public void setEventoCollection(Collection<Evento> eventoCollection) {
-        this.eventoCollection = eventoCollection;
     }
 
     public Unidade getUnidade() {

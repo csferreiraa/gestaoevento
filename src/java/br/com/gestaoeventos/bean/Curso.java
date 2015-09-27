@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -32,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "curso", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nome_curso"})})
+@SequenceGenerator(name= "sq_curso_universidade", allocationSize = 1, sequenceName = "public.sq_curso_universidade") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Curso.findAll", query = "SELECT c FROM Curso c"),
@@ -44,6 +48,7 @@ public class Curso implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_curso", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_curso_universidade") 
     private Integer idCurso;
     @Basic(optional = false)
     @NotNull
