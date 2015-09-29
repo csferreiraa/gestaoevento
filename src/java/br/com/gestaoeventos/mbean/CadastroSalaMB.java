@@ -7,6 +7,7 @@ package br.com.gestaoeventos.mbean;
 
 import br.com.gestaoeventos.bean.Sala;
 import br.com.gestaoeventos.bean.Unidade;
+import br.com.gestaoeventos.exceptions.CapacidadePessoasNaoPermitidaException;
 import br.com.gestaoeventos.exceptions.SalaExistenteException;
 import br.com.gestaoeventos.fachada.CadastroSalaFachada;
 import java.util.ArrayList;
@@ -24,59 +25,67 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "cadastroSalaMB")
 @SessionScoped
 public class CadastroSalaMB {
-    
+
     private String nomeSala;
     private Integer capacidadeMaxima;
     private String observacaoSala;
     private Unidade unidadeSala;
     private Integer idUnidade;
-    
+
     private List<Unidade> lstUnidade = new ArrayList<Unidade>();
-    
+
     @EJB
     private CadastroSalaFachada cadastroSalaFachada;
- 
-    public void iniciaCadastroSala(){
-        
+
+    public void iniciaCadastroSala() {
+
         Sala sala = new Sala();
         sala.setNomeSala(getNomeSala().toUpperCase().trim());
-        sala.setCapacidadeMaximaPessoas(getCapacidadeMaxima());
-        sala.setObservacaoSala(getObservacaoSala());
-        sala.setUnidade(new Unidade(getIdUnidade()));
-        
         try {
-            cadastroSalaFachada.cadastrarSalaFachada(sala);
-           
+            sala.setCapacidadeMaximaPessoas(getCapacidadeMaxima());
+
+            sala.setObservacaoSala(getObservacaoSala());
+            sala.setUnidade(new Unidade(getIdUnidade()));
+
+            try {
+                cadastroSalaFachada.cadastrarSalaFachada(sala);
+
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Sala " + sala.getNomeSala() + " foi cadastrada."));
+
+                setCapacidadeMaxima(null);
+                setObservacaoSala(null);
+
+            } catch (SalaExistenteException see) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", see.getMessage() + " - Sala: " + sala.getNomeSala()));
+            }
+
+        } catch (CapacidadePessoasNaoPermitidaException cpnpe) {
             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Sala " + sala.getNomeSala() + " foi cadastrada.") );
-            
-            setCapacidadeMaxima(null);
-            setObservacaoSala(null);
-            
-        } catch (SalaExistenteException see) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",  see.getMessage() + " - Sala: " + sala.getNomeSala()) );
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", cpnpe.getMessage() + ", " + getCapacidadeMaxima() + " Pessoas."));
+
         }
-        
+
     }
-    
+
     /**
      * Recuperar Unidade. Metodo responsavel por recuperar as Unidade existentes
      */
-    public void recuperaListaUnidadeListener(){
+    public void recuperaListaUnidadeListener() {
         setNomeSala(null);
         setCapacidadeMaxima(null);
         setObservacaoSala(null);
         setLstUnidade(cadastroSalaFachada.retrieveUnidadeSalaFachada());
     }
-    
+
     /**
-     * Redirecionar para Cadastro de Sala. Metodo responsavel por direcionar
-     * o usuario logado para a pagina de cadastro de Sala
-     * 
+     * Redirecionar para Cadastro de Sala. Metodo responsavel por direcionar o
+     * usuario logado para a pagina de cadastro de Sala
+     *
      * @return String
      */
-    public String returnPageCadastrarSala(){
+    public String returnPageCadastrarSala() {
         return "/pages/cadastro/sala/cadastroSala.xhtml?faces-redirect=true";
     }
 
@@ -164,8 +173,4 @@ public class CadastroSalaMB {
         this.idUnidade = idUnidade;
     }
 
-    
-    
-    
-    
 }

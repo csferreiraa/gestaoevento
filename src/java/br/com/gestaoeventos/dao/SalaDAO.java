@@ -48,7 +48,7 @@ public class SalaDAO {
     public List<Unidade> retrieveUnidadeSalaDAO(){
         List<Unidade> lstUnidade = new ArrayList<Unidade>();
         
-        lstUnidade = em.createQuery("SELECT U FROM Unidade U").getResultList();
+        lstUnidade = em.createQuery("SELECT U FROM Unidade U ORDER BY U.nomeUnidade").getResultList();
         
         return lstUnidade;
     }

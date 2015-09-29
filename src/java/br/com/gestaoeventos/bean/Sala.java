@@ -5,8 +5,11 @@
  */
 package br.com.gestaoeventos.bean;
 
+import br.com.gestaoeventos.exceptions.CapacidadePessoasNaoPermitidaException;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,12 +19,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +44,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sala.findByCapacidadeMaximaPessoas", query = "SELECT s FROM Sala s WHERE s.capacidadeMaximaPessoas = :capacidadeMaximaPessoas"),
     @NamedQuery(name = "Sala.findByObservacaoSala", query = "SELECT s FROM Sala s WHERE s.observacaoSala = :observacaoSala")})
 public class Sala implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sala")
+    private Collection<Evento> eventoCollection;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -62,6 +69,8 @@ public class Sala implements Serializable {
     @ManyToOne(optional = false)
     private Unidade unidade;
 
+    private static final String CAPACIDADE_NAO_PERMITIDA = "A CAPACIDADE DE PESSOAS DEVE ESTAR ENTRE 5 a 120";
+    
     public Sala() {
     }
 
@@ -95,8 +104,13 @@ public class Sala implements Serializable {
         return capacidadeMaximaPessoas;
     }
 
-    public void setCapacidadeMaximaPessoas(int capacidadeMaximaPessoas) {
-        this.capacidadeMaximaPessoas = capacidadeMaximaPessoas;
+    public void setCapacidadeMaximaPessoas(int capacidadeMaximaPessoas) throws CapacidadePessoasNaoPermitidaException {
+        if (capacidadeMaximaPessoas < 5 || capacidadeMaximaPessoas > 120){
+            throw new CapacidadePessoasNaoPermitidaException(CAPACIDADE_NAO_PERMITIDA);
+        } else {
+            this.capacidadeMaximaPessoas = capacidadeMaximaPessoas;
+        }
+
     }
 
     public String getObservacaoSala() {
@@ -138,6 +152,15 @@ public class Sala implements Serializable {
     @Override
     public String toString() {
         return "br.com.gestaoeventos.bean.Sala[ idSala=" + idSala + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Evento> getEventoCollection() {
+        return eventoCollection;
+    }
+
+    public void setEventoCollection(Collection<Evento> eventoCollection) {
+        this.eventoCollection = eventoCollection;
     }
     
 }

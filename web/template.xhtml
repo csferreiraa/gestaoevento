@@ -3,18 +3,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/css/cssLayout.css"/>
 
         <!-- JS-->
-        <script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/jQuery/jquery-1.11.3.min.js" type="text/javascript"/>
+        <!--script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/jQuery/jquery-1.11.3.min.js" type="text/javascript"/-->
         <script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"/>
+
 
 
     </h:head>
@@ -37,70 +40,92 @@
 
                 <div class="col-md-6" style="margin-top: 1%">
                     <ui:insert name="menu">
-                        <h:form>
-                            <!--h:graphicImage value="/images/logo.png" width="100%"/-->
+                        <h:form id="formMenu">
+
                             <c:if test="#{loginMB.userLogado}">
-                                <div class="btn-group">
-                                    <h:commandButton value="Inicio" id="btInicio" class="btn btn-primary" action="#{loginMB.retornaInicio}"/>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                            Cadastro <span class="caret"></span></button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <c:if test="#{loginMB.adminUsr}">
-                                                <!--li><a href="#">Usu&aacute;rio</a></li-->
-                                                <li><h:commandLink value="Usu&aacute;rio"
-                                                                   actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
-                                                                   action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/></li>
-                                            </c:if>
-                                            <c:if test="#{loginMB.adminUsr || loginMB.aluUsr || loginMB.coordUsr}">
-                                                <li><a href="#">Alterar Usu&aacute;rio</a></li>
-                                            </c:if>
-                                            <c:if test="#{loginMB.adminUsr}">
-                                                <li><h:commandLink value="Unidade"
-                                                                   action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/></li>
-                                                <li><h:commandLink value="Sala"
-                                                                   actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
-                                                                   action="#{cadastroSalaMB.returnPageCadastrarSala}"/></li>
-                                            </c:if>
-                                            <c:if test="#{loginMB.adminUsr}">
-                                                <li><h:commandLink value="Curso"
-                                                                   action="#{cadastroCursoMB.returnPageCadastrarCurso}"/></li>
-                                            </c:if>
-                                            <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
-                                                <li><h:commandLink value="Evento"
-                                                                   action="#{cadastroEventoMB.returnPageCadastrarEvento}"/></li>
-                                            </c:if>
-                                        </ul>
-                                    </div>
-                                    
-                                    <h:commandButton value="Buscar Evento" id="btBuscaEvento" class="btn btn-primary" action="#{loginMB.retornaInicio}"/>
-                                    
-                                    <h:commandButton value="Meus Eventos" id="btMeuEvento" class="btn btn-primary" action="#{loginMB.retornaInicio}"/>
-                                    
-                                    <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
-                                        <div class="btn-group">                                       
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                Relat&oacute;rio <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Usu&aacute;rio</a></li>
-                                                <li><a href="#">Unidade</a></li>
-                                                <li><a href="#">Sala</a></li>
-                                                <li><a href="#">Evento</a></li>
-                                                <li><a href="#">Curso</a></li>
-                                            </ul>
-                                        </div>
-                                    </c:if>
+                                <p:menubar class="btn btn-group">
+                                    <p:menuitem value="Inicio"
+                                                action="#{loginMB.retornaInicio}" />
 
-                                </div>
+                                    <p:submenu label="Cadastro" icon="ui-icon-pencil">
+                                        <p:menuitem value="Usu&aacute;rio"
+                                                    actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
+                                                    action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
 
-                            </c:if>    
+                                        <p:menuitem value="Alterar Usu&aacute;rio"/>
+                                        <p:menuitem value="Sala"
+                                                    actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
+                                                    action="#{cadastroSalaMB.returnPageCadastrarSala}"/>
+                                        <p:menuitem value="Unidade"
+                                                    action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/>
+                                        <p:menuitem value="Curso"
+                                                    action="#{cadastroCursoMB.returnPageCadastrarCurso}"/>
+
+                                        <p:separator />
+                                        <p:menuitem value="Evento" 
+                                                    actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"
+                                                    action="#{cadastroEventoMB.returnPageCadastrarEvento}"/>
+                                    </p:submenu>
+
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <p:menuitem value="Buscar Evento" icon="ui-icon-document"/>
+
+                                    <p:menuitem value="Meus Eventos" icon="ui-icon-gear"/>
+
+                                    <p:submenu label="Relat&oacute;rios" icon="ui-icon-document">
+                                        
+                                        <p:menuitem value="Usu&aacute;rio"
+                                                    actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
+                                                    action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
+
+                                        <p:menuitem value="Alterar Usu&aacute;rio"/>
+                                        
+                                        <p:menuitem value="Sala"
+                                                    actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
+                                                    action="#{cadastroSalaMB.returnPageCadastrarSala}"/>
+                                        
+                                        <p:menuitem value="Unidade"
+                                                    action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/>
+                                        
+                                        <p:menuitem value="Curso"
+                                                    action="#{cadastroCursoMB.returnPageCadastrarCurso}"/>
+                                        <p:separator />
+                                        
+                                        <p:menuitem value="Evento"
+                                                    actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"/>
+                                    </p:submenu>
+
+
+                                    <p:menuitem value="Quit" 
+                                                icon="ui-icon-close"
+                                                action="#{loginMB.efetuarLogoutMB()}"/>
+
+                                </p:menubar>
+                            </c:if>
+
+
                         </h:form>
                     </ui:insert>
                 </div>
                 <div class="col-md-3" style="margin-top: 1%" id="pessoaLogada">
                     <c:if test="#{loginMB.userLogado}">
                         <h:form>
-                            <h:outputLabel value="#{loginMB.usuario.nomeCompleto}"/> &nbsp; <h:commandButton value="Sair" class="btn btn-primary" action="#{loginMB.efetuarLogoutMB()}"/>
+                            <h:outputLabel value="#{loginMB.usuario.nomeCompleto}"/>
                         </h:form>
                     </c:if>
 
@@ -111,7 +136,7 @@
             <div id="location" class="form-group">
                 <ui:insert name="location">location</ui:insert>
             </div>
-            
+
             <div id="content" class="form-group">
                 <ui:insert name="content">Content</ui:insert>
             </div>

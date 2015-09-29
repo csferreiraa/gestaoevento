@@ -30,11 +30,11 @@
         <welcome-file>login.jsf</welcome-file>
     </welcome-file-list>
     
-    <!-- Primefaces Theme>
+    <!-- Primefaces Theme-->
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>flick</param-value>
-    </context-param-->
+        <param-value>start</param-value>
+    </context-param>
         
     
     <!--Informacoes para login-->

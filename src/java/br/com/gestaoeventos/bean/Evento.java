@@ -6,18 +6,18 @@
 package br.com.gestaoeventos.bean;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +25,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,17 +32,18 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "evento", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"nome_evento"}),
-    @UniqueConstraint(columnNames = {"data_inicio", "data_fim", "horario_evento", "id_sala"})})
+    @UniqueConstraint(columnNames = {"nome_evento", "data_evento"}),
+    @UniqueConstraint(columnNames = {"id_sala", "data_evento", "horario_inicio"})})
+@SequenceGenerator(name= "sq_evento_universidade", allocationSize = 1, sequenceName = "public.sq_evento_universidade") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e"),
     @NamedQuery(name = "Evento.findByIdEvento", query = "SELECT e FROM Evento e WHERE e.idEvento = :idEvento"),
     @NamedQuery(name = "Evento.findByNomeEvento", query = "SELECT e FROM Evento e WHERE e.nomeEvento = :nomeEvento"),
     @NamedQuery(name = "Evento.findByNomePalestrante", query = "SELECT e FROM Evento e WHERE e.nomePalestrante = :nomePalestrante"),
-    @NamedQuery(name = "Evento.findByDataInicio", query = "SELECT e FROM Evento e WHERE e.dataInicio = :dataInicio"),
-    @NamedQuery(name = "Evento.findByDataFim", query = "SELECT e FROM Evento e WHERE e.dataFim = :dataFim"),
-    @NamedQuery(name = "Evento.findByHorarioEvento", query = "SELECT e FROM Evento e WHERE e.horarioEvento = :horarioEvento"),
+    @NamedQuery(name = "Evento.findByDataEvento", query = "SELECT e FROM Evento e WHERE e.dataEvento = :dataEvento"),
+    @NamedQuery(name = "Evento.findByHorarioInicio", query = "SELECT e FROM Evento e WHERE e.horarioInicio = :horarioInicio"),
+    @NamedQuery(name = "Evento.findByDuracaoEvento", query = "SELECT e FROM Evento e WHERE e.duracaoEvento = :duracaoEvento"),
     @NamedQuery(name = "Evento.findByObservacaoEvento", query = "SELECT e FROM Evento e WHERE e.observacaoEvento = :observacaoEvento")})
 public class Evento implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -51,6 +51,7 @@ public class Evento implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_evento", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_evento_universidade") 
     private Integer idEvento;
     @Basic(optional = false)
     @NotNull
@@ -64,24 +65,20 @@ public class Evento implements Serializable {
     private String nomePalestrante;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "data_inicio", nullable = false)
+    @Column(name = "data_evento", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date dataInicio;
+    private Date dataEvento;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "data_fim", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date dataFim;
+    @Column(name = "horario_inicio", nullable = false)
+    private int horarioInicio;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "horario_evento", nullable = false, length = 10)
-    private String horarioEvento;
+    @Column(name = "duracao_evento", nullable = false)
+    private int duracaoEvento;
     @Size(max = 200)
     @Column(name = "observacao_evento", length = 200)
     private String observacaoEvento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "evento")
-    private Collection<Inscricao> inscricaoCollection;
     @JoinColumn(name = "id_sala", referencedColumnName = "id_sala", nullable = false)
     @ManyToOne(optional = false)
     private Sala sala;
@@ -96,13 +93,13 @@ public class Evento implements Serializable {
         this.idEvento = idEvento;
     }
 
-    public Evento(Integer idEvento, String nomeEvento, String nomePalestrante, Date dataInicio, Date dataFim, String horarioEvento) {
+    public Evento(Integer idEvento, String nomeEvento, String nomePalestrante, Date dataEvento, int horarioInicio, int duracaoEvento) {
         this.idEvento = idEvento;
         this.nomeEvento = nomeEvento;
         this.nomePalestrante = nomePalestrante;
-        this.dataInicio = dataInicio;
-        this.dataFim = dataFim;
-        this.horarioEvento = horarioEvento;
+        this.dataEvento = dataEvento;
+        this.horarioInicio = horarioInicio;
+        this.duracaoEvento = duracaoEvento;
     }
 
     public Integer getIdEvento() {
@@ -129,28 +126,28 @@ public class Evento implements Serializable {
         this.nomePalestrante = nomePalestrante;
     }
 
-    public Date getDataInicio() {
-        return dataInicio;
+    public Date getDataEvento() {
+        return dataEvento;
     }
 
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
+    public void setDataEvento(Date dataEvento) {
+        this.dataEvento = dataEvento;
     }
 
-    public Date getDataFim() {
-        return dataFim;
+    public int getHorarioInicio() {
+        return horarioInicio;
     }
 
-    public void setDataFim(Date dataFim) {
-        this.dataFim = dataFim;
+    public void setHorarioInicio(int horarioInicio) {
+        this.horarioInicio = horarioInicio;
     }
 
-    public String getHorarioEvento() {
-        return horarioEvento;
+    public int getDuracaoEvento() {
+        return duracaoEvento;
     }
 
-    public void setHorarioEvento(String horarioEvento) {
-        this.horarioEvento = horarioEvento;
+    public void setDuracaoEvento(int duracaoEvento) {
+        this.duracaoEvento = duracaoEvento;
     }
 
     public String getObservacaoEvento() {
@@ -159,15 +156,6 @@ public class Evento implements Serializable {
 
     public void setObservacaoEvento(String observacaoEvento) {
         this.observacaoEvento = observacaoEvento;
-    }
-
-    @XmlTransient
-    public Collection<Inscricao> getInscricaoCollection() {
-        return inscricaoCollection;
-    }
-
-    public void setInscricaoCollection(Collection<Inscricao> inscricaoCollection) {
-        this.inscricaoCollection = inscricaoCollection;
     }
 
     public Sala getSala() {

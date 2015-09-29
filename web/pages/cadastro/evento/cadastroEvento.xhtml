@@ -7,6 +7,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
 
+    <h:head>
+
+    </h:head>
+
     <body>
 
         <ui:composition template="/template.xhtml">
@@ -16,12 +20,13 @@
             </ui:define>
 
             <ui:define name="content">
-                
+
                 <div class="row">
                     <div style="border-style: outset; margin-top: 3em;" 
                          class="col-lg-6 col-md-offset-3"> <!--tamanho 6 iniciando no fim da posicao 3-->
                         <h:form id="frmCadastroEvento">
-                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true" /> 
+                            
+                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true"/> 
 
                             <h:panelGrid id="gridCadastroEvento" columns="3">
                                 <h:outputLabel value="" id="vazio1"/>
@@ -36,7 +41,8 @@
                                              required="true"
                                              size="20"
                                              maxlength="20"
-                                             requiredMessage="O nome do Evento é obrigatório">
+                                             requiredMessage="O nome do Evento é obrigatório"
+                                             value="#{cadastroEventoMB.nomeEvento}">
                                     <f:validateLength minimum="3" maximum="20"/>
                                 </h:inputText>
                                 <h:message for="txtNomeEvento" style="color: red" />
@@ -45,18 +51,123 @@
                                 <h:outputLabel value="" id="vazio5"/>
                                 <h:outputLabel value="" id="vazio6"/>
 
+                                <h:outputLabel value="Nome do Palestrante" 
+                                               id="lblNomePalestrante"/>
+                                <h:inputText id="txtNomePalestrante"
+                                             label="Nome do Palestrante"
+                                             pt:placeholder="Digite o Nome do Palestrante"
+                                             required="true"
+                                             size="30"
+                                             maxlength="50"
+                                             requiredMessage="O nome do Palestrante é obrigatório"
+                                             value="#{cadastroEventoMB.nomePalestrante}">
+                                    <f:validateLength minimum="3" maximum="50"/>
+                                </h:inputText>
+                                <h:message for="txtNomePalestrante" style="color: red" />
+
+                                <h:outputLabel value="" id="vazio7"/>
+                                <h:outputLabel value="" id="vazio8"/>
+                                <h:outputLabel value="" id="vazio9"/>
+
+                                <h:outputLabel value="Dia do Evento" 
+                                               id="lblDiaEvento"/>
+                                <p:calendar id="diaReserva"
+                                            navigator="false"
+                                            locale="pt_BR"
+                                            pattern="dd/MM/yyyy"
+                                            showOn="button"
+                                            label="Dia do Evento"
+                                            readonlyInput="true"
+                                            required="true"
+                                            requiredMessage="O dia do evento é obrigatório"
+                                            value="#{cadastroEventoMB.dataEvento}">
+                                    <f:validateLength minimum="10" maximum="50"/>
+                                    <p:ajax update="selectHoraInicio"
+                                            event="dateSelect"
+                                            listener="#{cadastroEventoMB.atualizaHoraInicio}"/>  
+                                </p:calendar>
+                                <h:message for="diaReserva" style="color: red" />
+                                
+                                <h:outputLabel value="" id="vazio10"/>
+                                <h:outputLabel value="" id="vazio11"/>
+                                <h:outputLabel value="" id="vazio12"/>
+
+                                <h:outputLabel value="Hora Inicio" 
+                                               id="lbHoraIni"/>
+                                <h:selectOneMenu value="#{cadastroEventoMB.idHoraInicio}" id="selectHoraInicio">  
+                                    <f:selectItem itemLabel="HORA DE INICIO" itemValue="-1" />
+                                    <f:selectItems value="#{cadastroEventoMB.lstHoraInicioEvento}" 
+                                                   var="evento"
+                                                   itemLabel="#{evento.descricaoHorario}"
+                                                   itemValue="#{evento.idHorario}"
+                                                   noSelectionValue="Selecione um grupo" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio13"/>
+
+                                <h:outputLabel value="" id="vazio14"/>
+                                <h:outputLabel value="" id="vazio15"/>
+                                <h:outputLabel value="" id="vazio16"/>
+                                
+                                <h:outputLabel value="Horas de Evento" 
+                                               id="lbHorasEvento"/>
+                                <h:selectOneMenu id="tempoHorasEvento"
+                                                 value="#{cadastroEventoMB.horasEvento}">  
+                                    <f:selectItem itemLabel="1:00" itemValue="1" />
+                                    <f:selectItem itemLabel="2:00" itemValue="2" />
+                                    <f:selectItem itemLabel="3:00" itemValue="3" />
+                                    <f:selectItem itemLabel="4:00" itemValue="4" />
+                                    <f:selectItem itemLabel="5:00" itemValue="5" />
+                                    <f:selectItem itemLabel="6:00" itemValue="6" />
+                                    <f:selectItem itemLabel="7:00" itemValue="7" />
+                                    <f:selectItem itemLabel="8:00" itemValue="8" />
+                                    <f:selectItem itemLabel="9:00" itemValue="9" />
+                                    <f:selectItem itemLabel="10:00" itemValue="10" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio17"/>
+                                
+                                <h:outputLabel value="" id="vazio18"/>
+                                <h:outputLabel value="" id="vazio19"/>
+                                <h:outputLabel value="" id="vazio20"/>
+
+                                <h:outputLabel value="Sala do Evento" 
+                                               id="lbSalaEvento"/>
+                                <h:selectOneMenu value="#{cadastroEventoMB.idSalaEvento}">  
+                                    <f:selectItems value="#{cadastroEventoMB.lstSalaEvento}" 
+                                                   var="sala" 
+                                                   itemValue="#{sala.idSala}" 
+                                                   itemLabel="#{sala.nomeSala}"/>
+                                </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio21"/>
+                                
+                                <h:outputLabel value="" id="vazio22"/>
+                                <h:outputLabel value="" id="vazio23"/>
+                                <h:outputLabel value="" id="vazio24"/>
+                                
+                                <h:outputLabel value="Curso Relacionado" 
+                                               id="lbCursoEvento"/>
+                                <h:selectOneMenu value="#{cadastroEventoMB.idCursoEvento}">  
+                                    <f:selectItems value="#{cadastroEventoMB.lstCursoEvento}" 
+                                                   var="curso" 
+                                                   itemValue="#{curso.idCurso}" 
+                                                   itemLabel="#{curso.nomeCurso}"/>
+                                </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio25"/>
+                                
+                                <h:outputLabel value="" id="vazio26"/>
+                                <h:outputLabel value="" id="vazio27"/>
+                                <h:outputLabel value="" id="vazio28"/>
+                                
                                 <h:outputLabel value="Observa&ccedil;&atilde;o" 
-                                               id="lblObsCurso"/>
-                                <h:inputTextarea id="txtObsCurso"
+                                               id="lblObsEvento"/>
+                                <h:inputTextarea id="txtObsEvento"
                                                  label="Observação"
-                                                 pt:placeholder="Campo para adicionar observações do Curso"
+                                                 pt:placeholder="Campo para adicionar observações do Evento"
                                                  rows="5"
                                                  cols="60"
-                                                 value="#{cadastroCursoMB.observacaoCurso}">
+                                                 value="#{cadastroEventoMB.observacaoEvento}">
                                     <f:validateLength maximum="200"/>
                                 </h:inputTextarea>
-                                <p:message for="txtObsCurso" style="color: red"/>
-
+                                <p:message for="txtObsEvento" style="color: red"/>
 
                             </h:panelGrid>
 
@@ -68,15 +179,15 @@
                                                  onclick="if (!confirm('Deseja Confirmar o Cadastro ?')) {
                                                              return false;
                                                          }"
-                                                         action="#{cadastroCursoMB.iniciaCadastroCurso}" 
-                                                 update="growl txtNomeEvento gridCadastroEvento frmCadastroEvento" />  
+                                                 action="#{cadastroEventoMB.iniciaCadastroEvento}" 
+                                                 update="growl frmCadastroEvento" />  
 
                             </center>
                             <br/>
                         </h:form>
                     </div>
                 </div>
-                
+
             </ui:define>
 
         </ui:composition>

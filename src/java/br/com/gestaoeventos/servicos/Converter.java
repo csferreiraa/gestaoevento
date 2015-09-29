@@ -40,6 +40,15 @@ public class Converter {
 
     }
     
-    
+    /**
+     * Formata a hora de inicio. Retorna a hora de inicio formatada em forma de String.
+     * @param hora
+     * @return 
+     */
+    public String converteHorarioInicioEventoStrToInt(int hora){
+        
+        return String.valueOf(hora) + ":00";
+        
+    }
     
 }

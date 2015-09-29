@@ -86,7 +86,7 @@ public class UsuarioDAO {
     public List<Grupos> retrieveGruposDAO(){
         List<Grupos> lstGrp = new ArrayList<Grupos>();
         
-        lstGrp = em.createQuery("SELECT G FROM Grupos G").getResultList();
+        lstGrp = em.createQuery("SELECT G FROM Grupos G ORDER BY G.descricaoGrupo").getResultList();
         
         return lstGrp;
     }
