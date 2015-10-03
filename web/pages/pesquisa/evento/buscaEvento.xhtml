@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="/template.xhtml">
+
+            <ui:define name="location">
+                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Busca de Evento" id="lbCadUnid"/></b>
+            </ui:define>
+
+            <ui:define name="content">
+
+
+                <div class="row">
+                    <div style="border-style: outset; margin-top: 1em;" 
+                         class="col-lg-8 col-md-offset-2"> <!--tamanho 6 iniciando no fim da posicao 3-->
+                        <h:form id="frmCadastroEvento">
+
+                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true"/> 
+
+                            <br/>
+
+                            <center>
+                                <h:outputLabel value="Curso Relacionado " 
+                                               id="lbCursoRelacionadoEvento"/>
+                                <h:selectOneMenu id="selectCursoEvento"
+                                                 value="#{buscaEventoMB.idCursoEvento}">
+                                    <f:selectItems value="#{buscaEventoMB.lstCursoEvento}" 
+                                                   var="curso" 
+                                                   itemValue="#{curso.idCurso}" 
+                                                   itemLabel="#{curso.nomeCurso}"
+                                                   noSelectionValue="Selecione um Curso" />
+                                    <p:ajax update="@all" 
+                                            listener="#{buscaEventoMB.recuperaEventoByCursoListener}"/>
+                                </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio17"/>
+
+                                <p:spacer width="25px"/>
+
+                                <h:outputLabel value="Evento" 
+                                               id="lbEvento"/>
+                                <h:selectOneMenu id="selectEvento"
+                                                 value="#{buscaEventoMB.idEventoAux}">  
+                                    <f:selectItems value="#{buscaEventoMB.lstEventoAux}" 
+                                                   var="evento" 
+                                                   itemValue="#{evento.idEvento}" 
+                                                   itemLabel="#{evento.nomeEvento}"
+                                                   noSelectionValue="Selecione um Evento" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio18"/>
+                            </center>
+                            <br/>                         
+
+                            <center>
+
+                                <p:commandButton value="Pesquisar" 
+                                                 class="btn btn-primary btn-sm"
+                                                 onclick="if (!confirm('Deseja Confirmar o Cadastro ?')) {
+                                                             return false;
+                                                         }"
+                                                 action="#{buscaEventoMB.iniciaPesquisaDetalheEvento}" 
+                                                 update="growl frmCadastroEvento" />  
+
+                            </center>
+
+                            <br/>
+
+
+
+
+                            <center>
+
+                                <p:dataTable id="tadaTaleEvento"
+                                             var="evento" 
+                                             value="#{buscaEventoMB.lstEventoFinal}"
+                                             selection="#{buscaEventoMB.eventoAuxSelecionado}"
+                                             rowKey="#{evento.idEvento}"
+                                             rows="10"
+                                             paginator="true">
+
+                                    <p:column headerText="SELECIONE" 
+                                              selectionMode="single" 
+                                              style="width:9%;text-align:center"/>
+
+                                    <p:column headerText="NOME EVENTO">
+                                        <h:outputText value="#{evento.nomeEvento}" />
+                                    </p:column>
+
+                                    <p:column headerText="PALESTRANTE">
+                                        <h:outputText value="#{evento.nomePalestrante}" />
+                                    </p:column>
+
+                                    <p:column headerText="DATA">
+                                        <h:outputText value="#{evento.dtEvento}" />
+                                    </p:column>
+
+                                    <p:column headerText="HORA INICIO">
+                                        <h:outputText value="#{evento.hrInicio}" />
+                                    </p:column>
+
+                                    <p:column headerText="TEMPO (Horas)">
+                                        <h:outputText value="#{evento.duracaoEvento}" />
+                                    </p:column>
+
+                                    <p:column headerText="CURSO">
+                                        <h:outputText value="#{evento.curso.nomeCurso}" />
+                                    </p:column>
+
+                                    <p:column headerText="SALA">
+                                        <h:outputText value="#{evento.sala.nomeSala}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="INSCRIÇÕES">
+                                        <h:outputText value="#{evento.quantidadeInscricoes} de #{evento.sala.capacidadeMaximaPessoas}"  />
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </center>
+
+                            <br/>
+
+                            <center>
+                                <h:commandButton value="Inscrever" 
+                                                 action="#{buscaEventoMB.verificaPossibilidadeInscricaoEvento}"
+                                                 class="btn btn-primary btn-sm"/>
+                            </center>
+                            <br/>
+                        </h:form>
+                    </div>
+                </div>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

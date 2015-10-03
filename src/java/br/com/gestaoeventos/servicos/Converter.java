@@ -8,6 +8,10 @@ package br.com.gestaoeventos.servicos;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -39,16 +43,31 @@ public class Converter {
         }
 
     }
-    
+
     /**
-     * Formata a hora de inicio. Retorna a hora de inicio formatada em forma de String.
-     * @param hora
+     * Converte Date To String. Metodo responsavel por convertar Data para String
+     * @param data
      * @return 
      */
-    public String converteHorarioInicioEventoStrToInt(int hora){
+    public String convertDateToString(Date data){
         
-        return String.valueOf(hora) + ":00";
+        String resultado;
         
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
+	resultado = sdf.format(data); 
+
+        return resultado;
+    }
+    
+    /**
+     * Retirar Hora da Data. Metodo responsavel por retirar a hora da Data.
+     * @param data
+     * @return
+     * @throws ParseException 
+     */
+    public Date zerarHoraDatas(Date data) throws ParseException {
+        DateFormat dtFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dtFormat.parse(dtFormat.format(data));
     }
     
 }

@@ -20,7 +20,7 @@
             <ui:define name="location">
                 <b><h:outputLabel value="Voc&ecirc; est&aacute; em Login" id="lbCadUnid"/></b>
             </ui:define>
-            
+
             <ui:define name="content">
 
                 <h:form id="formCadastroAluno">
@@ -71,7 +71,7 @@
                                         </h:inputSecret>
                                         <h:message for="txtSenhaCadastro" style="color:red" id="msgSenhaCadastro"/>
                                     </h:panelGrid>
-                                    
+
                                 </div>
 
                                 <div class="modal-footer">
@@ -131,6 +131,10 @@
                                     class="btn btn-sm btn-primary" 
                                     data-toggle="modal" 
                                     data-target="#myModal">Cadastro</button>
+
+                            <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+                                <h:outputText value="This is a Modal Dialog." />
+                            </p:dialog>   
                         </center>
 
                     </h:form>   

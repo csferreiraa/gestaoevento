@@ -52,8 +52,6 @@ public class CadastroEventoFachada {
     public void validaExistenciaEventoSalaDiaHora(Evento eventoUsuario) throws EventoSalaDiaHoraExistente {
 
         List<Evento> lstEvento = eventoDAO.validaExistenciaEventoSalaDiaHoraDAO(eventoUsuario);
-        
-        System.out.println("TAMANHO DA LISTA DE EVENTO = " + lstEvento.size());
 
         if (!lstEvento.isEmpty()) {
 
@@ -69,40 +67,25 @@ public class CadastroEventoFachada {
                 Integer horaInicioEventoBanco = eventoBanco.getHorarioInicio();
                 Integer horasDeDuracaoEvento = eventoBanco.getDuracaoEvento();
 
-                System.out.println("ESTOU AQUI 1");
-
                 // 2 Passo. Usando objetos da interface Set para representar a intersecao de dois ou mais conjuntos
                 for (int i = horaInicioEventoBanco; i <= (horaInicioEventoBanco + horasDeDuracaoEvento); i++) {
                     conjuntoHorasBanco.add(i);
-                    System.out.println("Adicionando do banco " + i);
                 }
-
-                System.out.println("ESTOU AQUI 2");
 
                 for (int j = eventoUsuario.getHorarioInicio(); j <= (eventoUsuario.getHorarioInicio() + eventoUsuario.getDuracaoEvento()); j++) {
                     conjuntoHorasUsuario.add(j);
-                    System.out.println("Adicionando do usuario " + j);
                 }
-
-                System.out.println("ESTOU AQUI 3");
 
                 conjuntoIntersecao = intersecao(conjuntoHorasBanco, conjuntoHorasUsuario);
 
-                System.out.println("ESTOU AQUI 4");
 
                 // Validando o conjunto retornado
                 Iterator iterator = conjuntoIntersecao.iterator();
                 while (iterator.hasNext()) {
-                    System.out.println("BATEU " + iterator.next());
-                    System.out.println("Evento dia " + eventoUsuario.getDataEvento() + " hora " + eventoUsuario.getHorarioInicio());
-                    System.out.println("Evento dia " + eventoBanco.getDataEvento() + " hora " + eventoBanco.getHorarioInicio());
                     possuiIntersecao = Boolean.TRUE;
                 }
 
-                System.out.println("ESTOU AQUI 5");
-
                 if (possuiIntersecao) {
-                    System.out.println("DEU MINHA EXCECAO AQUI");
                     throw new EventoSalaDiaHoraExistente(CONFLITO_DE_HORARIO_SALA_DIA);
                 }
 

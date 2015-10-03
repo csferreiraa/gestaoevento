@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "evento", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"nome_evento", "data_evento"}),
     @UniqueConstraint(columnNames = {"id_sala", "data_evento", "horario_inicio"})})
-@SequenceGenerator(name= "sq_evento_universidade", allocationSize = 1, sequenceName = "public.sq_evento_universidade") 
+@SequenceGenerator(name = "sq_evento_universidade", allocationSize = 1, sequenceName = "public.sq_evento_universidade")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evento.findAll", query = "SELECT e FROM Evento e"),
@@ -46,12 +46,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Evento.findByDuracaoEvento", query = "SELECT e FROM Evento e WHERE e.duracaoEvento = :duracaoEvento"),
     @NamedQuery(name = "Evento.findByObservacaoEvento", query = "SELECT e FROM Evento e WHERE e.observacaoEvento = :observacaoEvento")})
 public class Evento implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_evento", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_evento_universidade") 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_evento_universidade")
     private Integer idEvento;
     @Basic(optional = false)
     @NotNull
@@ -198,5 +199,5 @@ public class Evento implements Serializable {
     public String toString() {
         return "br.com.gestaoeventos.bean.Evento[ idEvento=" + idEvento + " ]";
     }
-    
+
 }

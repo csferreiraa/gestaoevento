@@ -48,64 +48,63 @@
                                                 action="#{loginMB.retornaInicio}" />
 
                                     <p:submenu label="Cadastro" icon="ui-icon-pencil">
-                                        <p:menuitem value="Usu&aacute;rio"
-                                                    actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
-                                                    action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
+                                        <c:if test="#{loginMB.adminUsr}">
+                                            <p:menuitem value="Usu&aacute;rio"
+                                                        actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
+                                                        action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
+                                        </c:if>
 
-                                        <p:menuitem value="Alterar Usu&aacute;rio"/>
-                                        <p:menuitem value="Sala"
-                                                    actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
-                                                    action="#{cadastroSalaMB.returnPageCadastrarSala}"/>
-                                        <p:menuitem value="Unidade"
-                                                    action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/>
-                                        <p:menuitem value="Curso"
-                                                    action="#{cadastroCursoMB.returnPageCadastrarCurso}"/>
+                                        <c:if test="#{loginMB.adminUsr || loginMB.aluUsr || loginMB.coordUsr}">
+                                            <p:menuitem value="Alterar Usu&aacute;rio"/>
+                                        </c:if>
 
-                                        <p:separator />
-                                        <p:menuitem value="Evento" 
-                                                    actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"
-                                                    action="#{cadastroEventoMB.returnPageCadastrarEvento}"/>
+                                        <c:if test="#{loginMB.adminUsr}">
+                                            <p:menuitem value="Sala"
+                                                        actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
+                                                        action="#{cadastroSalaMB.returnPageCadastrarSala}"/>
+                                            <p:menuitem value="Unidade"
+                                                        action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/>
+                                        </c:if>
+                                        <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
+                                            <p:menuitem value="Curso"
+                                                        action="#{cadastroCursoMB.returnPageCadastrarCurso}"/>
+
+                                            <p:separator />
+                                        </c:if>
+
+                                        <c:if test="#{loginMB.adminUsr || loginMB.coordUsr}">
+                                            <p:menuitem value="Evento" 
+                                                        actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"
+                                                        action="#{cadastroEventoMB.returnPageCadastrarEvento}"/>
+                                        </c:if>
                                     </p:submenu>
 
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    <p:menuitem value="Buscar Evento" icon="ui-icon-document"/>
+                                    <p:menuitem value="Buscar Evento" 
+                                                icon="ui-icon-document"
+                                                actionListener="#{buscaEventoMB.recuperaCursoRelacionadoEventoListener}"
+                                                action="#{buscaEventoMB.returnPageBuscaEvento}"/>
 
                                     <p:menuitem value="Meus Eventos" icon="ui-icon-gear"/>
 
                                     <p:submenu label="Relat&oacute;rios" icon="ui-icon-document">
-                                        
+
                                         <p:menuitem value="Usu&aacute;rio"
                                                     actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
                                                     action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
 
                                         <p:menuitem value="Alterar Usu&aacute;rio"/>
-                                        
+
                                         <p:menuitem value="Sala"
                                                     actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
                                                     action="#{cadastroSalaMB.returnPageCadastrarSala}"/>
-                                        
+
                                         <p:menuitem value="Unidade"
                                                     action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/>
-                                        
+
                                         <p:menuitem value="Curso"
                                                     action="#{cadastroCursoMB.returnPageCadastrarCurso}"/>
                                         <p:separator />
-                                        
+
                                         <p:menuitem value="Evento"
                                                     actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"/>
                                     </p:submenu>
@@ -148,7 +147,7 @@
                             <b>
                                 <div class="container">
                                     SISTEMA DE GEST&Atilde;O DE EVENTOS<br/>
-                                    NOME DO CREITU AQUI !!!!!!!!!!<br/>
+                                    CLEITON FERREIRA<br/>
                                     UNIARA - CENTRO UNIVERSIT&Aacute;RIO DE ARARAQUARA
                                 </div>
                             </b>

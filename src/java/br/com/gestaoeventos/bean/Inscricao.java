@@ -10,11 +10,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "inscricao")
+@SequenceGenerator(name= "sq_inscricao_evento", allocationSize = 1, sequenceName = "public.sq_inscricao_evento") 
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Inscricao.findAll", query = "SELECT i FROM Inscricao i"),
@@ -39,6 +43,7 @@ public class Inscricao implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_inscricao", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_inscricao_evento") 
     private Integer idInscricao;
     @Column(name = "presenca_aluno")
     private Character presencaAluno;

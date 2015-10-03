@@ -84,6 +84,7 @@
             <web-resource-name>Administradores e Coordenadores</web-resource-name>
             <description />
             <url-pattern>/pages/inicio.jsf</url-pattern>
+            <url-pattern>/pages/cadastro/evento/cadastroEvento.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
@@ -116,6 +117,7 @@
             <description />
             <url-pattern>/pages/inicio.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
+            <url-pattern>/pages/pesquisa/evento/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Todos</description>

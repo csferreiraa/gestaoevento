@@ -5,6 +5,10 @@
  */
 package testes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,7 +19,7 @@ import java.util.TreeSet;
  */
 public class testadora {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         // primeiro conjunto
         Set<Integer> conjuntoA = new TreeSet<>();
         conjuntoA.add(2);
@@ -39,7 +43,16 @@ public class testadora {
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }
+        
+        System.out.println(zerarHoraDatas(new Date()));
     }
+    
+        private static Date zerarHoraDatas(Date data) throws ParseException {
+        DateFormat dtFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dtFormat.parse(dtFormat.format(data));
+    }
+    
+    
 
     // método genérico que permite obter a interseção de dois conjuntos
     public static <T> Set<T> intersecao(Set<T> conjA, Set<T> conjB) {
