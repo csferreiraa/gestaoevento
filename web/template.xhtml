@@ -77,6 +77,13 @@
                                                         actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"
                                                         action="#{cadastroEventoMB.returnPageCadastrarEvento}"/>
                                         </c:if>
+                                        
+                                        <c:if test="#{loginMB.adminUsr || loginMB.coordUsr || loginMB.profUsr}">
+                                            <p:menuitem value="Gerenciar Presença"
+                                                        actionListener="#{gerenciaPresencaMB.recuperaEventosPresencaListener}"
+                                                        action="#{gerenciaPresencaMB.returnPageGerenciarPresenca}"/>
+                                        </c:if>
+                                        
                                     </p:submenu>
 
                                     <p:menuitem value="Buscar Evento" 
@@ -84,33 +91,11 @@
                                                 actionListener="#{buscaEventoMB.recuperaCursoRelacionadoEventoListener}"
                                                 action="#{buscaEventoMB.returnPageBuscaEvento}"/>
 
-                                    <p:menuitem value="Meus Eventos" icon="ui-icon-gear"/>
+                                    <p:menuitem value="Meus Eventos" 
+                                                icon="ui-icon-gear"
+                                                action="#{meuEventoMB.returnPageMeuEvento}"/>
 
-                                    <p:submenu label="Relat&oacute;rios" icon="ui-icon-document">
-
-                                        <p:menuitem value="Usu&aacute;rio"
-                                                    actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
-                                                    action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
-
-                                        <p:menuitem value="Alterar Usu&aacute;rio"/>
-
-                                        <p:menuitem value="Sala"
-                                                    actionListener="#{cadastroSalaMB.recuperaListaUnidadeListener}"
-                                                    action="#{cadastroSalaMB.returnPageCadastrarSala}"/>
-
-                                        <p:menuitem value="Unidade"
-                                                    action="#{cadastroUnidadeMB.returnPageCadastrarUnidade}"/>
-
-                                        <p:menuitem value="Curso"
-                                                    action="#{cadastroCursoMB.returnPageCadastrarCurso}"/>
-                                        <p:separator />
-
-                                        <p:menuitem value="Evento"
-                                                    actionListener="#{cadastroEventoMB.recuperaDadosEventoListener}"/>
-                                    </p:submenu>
-
-
-                                    <p:menuitem value="Quit" 
+                                    <p:menuitem value="Sair" 
                                                 icon="ui-icon-close"
                                                 action="#{loginMB.efetuarLogoutMB()}"/>
 

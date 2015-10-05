@@ -93,6 +93,7 @@ public class BuscaEventoMB {
                 Inscricao inscricao = new Inscricao();
                 inscricao.setUsuario(usuario);
                 inscricao.setEvento(new Evento(getEventoAuxSelecionado().getIdEvento()));
+                inscricao.setPresencaAluno('A');
 
                 inscricaoEventoFachada.gravarInscricaoFachada(inscricao);
 

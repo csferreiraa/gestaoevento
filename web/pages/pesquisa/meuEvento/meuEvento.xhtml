@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="/template.xhtml">
+
+            <ui:define name="location">
+                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Meus Eventos" id="lbCadUnid"/></b>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <div class="row">
+                    <div style="border-style: outset; margin-top: 1em;" 
+                         class="col-lg-8 col-md-offset-2"> <!--tamanho 6 iniciando no fim da posicao 3-->
+                        <h:form id="frmPesquisaEvento">
+
+                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true"/> 
+
+                            <br/>
+
+                            <center>
+
+                                <table border="0">
+                                    <tr>
+                                        <td>
+                                            <h:outputLabel value="Inicio " 
+                                                           id="lbInicioPesquisa"/>
+                                        </td>
+                                        <td>
+                                            <p:calendar id="diaInicio"
+                                                        navigator="false"
+                                                        locale="pt_BR"
+                                                        pattern="dd/MM/yyyy"
+                                                        showOn="button"
+                                                        label="Dia do Evento"
+                                                        readonlyInput="true"
+                                                        required="true"
+                                                        requiredMessage="O dia do evento é obrigatório"
+                                                        value="#{meuEventoMB.dataEventoInicio}">
+                                                <f:validateLength minimum="10" maximum="50"/>
+                                            </p:calendar>
+                                        </td>
+                                        <td>
+                                            <h:outputLabel value="Fim " 
+                                                           id="lbFimPesquisa"/>
+                                        </td>
+                                        <td>
+                                            <p:calendar id="diaFim"
+                                                        navigator="false"
+                                                        locale="pt_BR"
+                                                        pattern="dd/MM/yyyy"
+                                                        showOn="button"
+                                                        label="Dia do Evento"
+                                                        readonlyInput="true"
+                                                        required="true"
+                                                        requiredMessage="O dia do evento é obrigatório"
+                                                        value="#{meuEventoMB.dataEventoFim}">
+                                                <f:validateLength minimum="10" maximum="50"/>
+                                            </p:calendar>
+                                        </td>
+                                        <td>
+                                            <h:outputLabel value="Pres / Aus :" id="lbPresenteAusente"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="selectEventoPresenca" 
+                                                             value="#{meuEventoMB.tipoPresenca}" 
+                                                             style="width:140px">
+                                                <f:selectItem itemLabel="P - PRESENTE" itemValue="P" />
+                                                <f:selectItem itemLabel="A - AUSENTE" itemValue="A" />
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <h:message for="diaInicio" style="color: red" />
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <h:message for="diaFim" style="color: red" />
+                                        </td>
+                                    </tr>
+
+                                </table>
+
+                            </center>
+                            <br/>                         
+
+                            <center>
+                                <p:commandButton value="Pesquisar" 
+                                                 class="btn btn-primary btn-sm"
+                                                 onclick="if (!confirm('Deseja Confirmar a pesquisa ?')) {
+                                                             return false;
+                                                         }"
+                                                 action="#{meuEventoMB.iniciaPesquisaMeuEvento}" 
+                                                 update="growl frmPesquisaEvento" />  
+                            </center>
+
+                            <br/>
+
+                            <center>
+
+                                <p:dataTable id="tadaTaleInscricao" class="btn btn-sm"
+                                             var="inscricao" 
+                                             value="#{meuEventoMB.lstInscricaoAux}"
+                                             selection="#{meuEventoMB.inscricaoSelecionada}"
+                                             rowKey="#{inscricao.idInscricao}"
+                                             rows="10"
+                                             paginator="true">
+
+                                    <p:column headerText="SELECIONE" 
+                                              selectionMode="single" 
+                                              style="width:9%;text-align:center"/>
+
+                                    <p:column headerText="NOME EVENTO">
+                                        <h:outputText value="#{inscricao.evento.nomeEvento}" />
+                                    </p:column>
+
+                                    <p:column headerText="DATA EVENTO">
+                                        <h:outputText value="#{inscricao.dataEventoString}" />
+                                    </p:column>
+
+                                    <p:column headerText="HORA INICIO">
+                                        <h:outputText value="#{inscricao.evento.horarioInicio}:00" />
+                                    </p:column>
+
+                                    <p:column headerText="DURACAO (HORAS)">
+                                        <h:outputText value="#{inscricao.evento.duracaoEvento}" />
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </center>
+
+                            <br/>
+
+                            <center>
+                                <h:commandButton value="Cancelar Evento" 
+                                                 action="#{meuEventoMB.iniciaCancelamentoEvento}"
+                                                 class="btn btn-primary btn-sm"/>
+                            </center>
+                            <br/>
+                        </h:form>
+                    </div>
+                </div>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

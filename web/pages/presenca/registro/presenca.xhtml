@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="/template.xhtml">
+
+            <ui:define name="location">
+                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Gerenciar Presença" id="lbCadUnid"/></b>
+            </ui:define>
+
+            <ui:define name="content">
+
+                <div class="row">
+                    <div style="border-style: outset; margin-top: 1em;" 
+                         class="col-lg-8 col-md-offset-2"> <!--tamanho 6 iniciando no fim da posicao 3-->
+                        <h:form id="frmGerenciaPresenca">
+
+                            <p:growl id="growl" showDetail="true" sticky="true" globalOnly="true"/> 
+
+                            <br/>
+
+                            <center>
+
+                                <h:outputLabel value="Evento" 
+                                               id="lbEvento"/>
+                                <h:selectOneMenu id="selectEvento"
+                                                 value="#{gerenciaPresencaMB.idEvento}">  
+                                    <f:selectItems value="#{gerenciaPresencaMB.lstEvento}" 
+                                                   var="evento" 
+                                                   itemValue="#{evento.idEvento}" 
+                                                   itemLabel="#{evento.nomeEvento}"
+                                                   noSelectionValue="Selecione um Evento" />
+                                </h:selectOneMenu>
+
+                                <p:spacer width="25px"/>
+
+                                <p:commandButton value="Pesquisar" 
+                                                 class="btn btn-primary btn-sm"
+                                                 onclick="if (!confirm('Deseja Confirmar a Pesquisa ?')) {
+                                                             return false;
+                                                         }"
+                                                 action="#{gerenciaPresencaMB.pesquisarInscricoesEvento}" 
+                                                 update="growl frmGerenciaPresenca" />  
+
+                            </center>
+
+                            <br/>
+
+                            <center>
+
+                                <p:dataTable id="checkboxDT" class="btn btn-sm"
+                                             var="inscricao" 
+                                             value="#{gerenciaPresencaMB.lstInscricao}" 
+                                             selection="#{gerenciaPresencaMB.lstInscricaoSelecionada}" 
+                                             rowKey="#{inscricao.idInscricao}" style="margin-bottom:0"
+                                             rows="10"
+                                             paginator="true">
+
+                                    <f:facet name="header">
+                                        Resultado da Pesquisa
+                                    </f:facet>
+
+                                    <p:column selectionMode="multiple" 
+                                              style="width:15%;text-align:center"
+                                              headerText="Presença (CTRL + Click)"/>
+
+                                    <p:column headerText="Nome Inscrito">
+                                        <h:outputText value="#{inscricao.usuario.nomeCompleto}" />
+                                    </p:column>
+                                    <p:column headerText="Data Evento">
+                                        <h:outputText value="#{inscricao.evento.dataEvento}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Status Atual">
+                                        <b><h:outputText value="AUSENTE" rendered="#{inscricao.presencaAluno == 'A'}"/></b>
+                                        <b><h:outputText value="PRESENTE" rendered="#{inscricao.presencaAluno == 'P'}"/></b>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Hora Evento">
+                                        <h:outputText value="#{inscricao.evento.horarioInicio}:00" />
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </center>
+
+                            <br/>
+
+                            <center>
+                                <h:commandButton value="Atualizar Presença" 
+                                                 action="#{gerenciaPresencaMB.atualizarPresencaEvento}"
+                                                 class="btn btn-primary btn-sm"/>
+                            </center>
+                            <br/>
+                        </h:form>
+                    </div>
+                </div>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

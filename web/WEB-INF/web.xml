@@ -118,6 +118,7 @@
             <url-pattern>/pages/inicio.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
             <url-pattern>/pages/pesquisa/evento/*</url-pattern>
+            <url-pattern>/pages/pesquisa/meuEvento/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Todos</description>

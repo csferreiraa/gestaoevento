@@ -11,7 +11,9 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -22,11 +24,11 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class Converter {
-    
+
     /**
      * String to MD5. Metodo responsavel por converter a Senha digitada pelo
      * Usuario para o formato MD5 de criptografia.
-     * 
+     *
      * @param password
      * @return String
      */
@@ -45,29 +47,66 @@ public class Converter {
     }
 
     /**
-     * Converte Date To String. Metodo responsavel por convertar Data para String
+     * Converte Date To String. Metodo responsavel por convertar Data para
+     * String
+     *
      * @param data
-     * @return 
+     * @return
      */
-    public String convertDateToString(Date data){
-        
+    public String convertDateToString(Date data) {
+
         String resultado;
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
-	resultado = sdf.format(data); 
+        resultado = sdf.format(data);
 
         return resultado;
     }
-    
+
     /**
      * Retirar Hora da Data. Metodo responsavel por retirar a hora da Data.
+     *
      * @param data
      * @return
-     * @throws ParseException 
+     * @throws ParseException
      */
     public Date zerarHoraDatas(Date data) throws ParseException {
         DateFormat dtFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dtFormat.parse(dtFormat.format(data));
     }
-    
+
+    /**
+     * Calcular Dias da Data Atual. Metodo responsavel por calcular dias na data
+     *
+     * @param data
+     * @param dias
+     * @param operacao
+     * @return
+     */
+    public Date calculaDiasData(Date data, Integer dias, String operacao) {
+
+        if (operacao.equals("-")) {
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTime(data);
+            gc.set(Calendar.DATE, gc.get(Calendar.DATE) - dias);
+            try {
+                return this.zerarHoraDatas(gc.getTime());
+            } catch (ParseException ex) {
+                Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if (operacao.equals("+")) {
+            GregorianCalendar gc = new GregorianCalendar();
+            gc.setTime(data);
+            gc.set(Calendar.DATE, gc.get(Calendar.DATE) + dias);
+            try {
+                return this.zerarHoraDatas(gc.getTime());
+            } catch (ParseException ex) {
+                Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
 }
