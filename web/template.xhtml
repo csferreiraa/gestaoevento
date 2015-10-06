@@ -9,7 +9,6 @@
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-
         <!--CSS-->
         <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/resources/css/cssLayout.css"/>
@@ -18,12 +17,10 @@
         <!--script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/jQuery/jquery-1.11.3.min.js" type="text/javascript"/-->
         <script src="#{facesContext.externalContext.requestContextPath}/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"/>
 
-
-
     </h:head>
 
     <h:body>
-
+            
         <div class="col-md-12">
 
             <div id="espacoLogo" class="row">
@@ -47,15 +44,12 @@
                                     <p:menuitem value="Inicio"
                                                 action="#{loginMB.retornaInicio}" />
 
-                                    <p:submenu label="Cadastro" icon="ui-icon-pencil">
+                                    <p:submenu label="Cadastro" icon="ui-icon-pencil"
+                                               rendered="#{!loginMB.aluUsr}">
                                         <c:if test="#{loginMB.adminUsr}">
                                             <p:menuitem value="Usu&aacute;rio"
                                                         actionListener="#{cadastroUsuarioMB.recuperaListaGruposListener}"
                                                         action="#{cadastroUsuarioMB.returnPageCadastroUsuario}"/>
-                                        </c:if>
-
-                                        <c:if test="#{loginMB.adminUsr || loginMB.aluUsr || loginMB.coordUsr}">
-                                            <p:menuitem value="Alterar Usu&aacute;rio"/>
                                         </c:if>
 
                                         <c:if test="#{loginMB.adminUsr}">
@@ -141,8 +135,7 @@
                 </ui:insert>
             </div>
         </div>
-
-
+        
     </h:body>
 
 </html>

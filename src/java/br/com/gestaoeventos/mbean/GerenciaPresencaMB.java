@@ -27,84 +27,92 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "gerenciaPresencaMB")
 @SessionScoped
 public class GerenciaPresencaMB {
-    
+
     // Eventos dentro do peridio de 15 dias na data atual.
     private List<Evento> lstEvento = new ArrayList<Evento>();
-    
+
     // Inscricoes dos Eventos
     private List<Inscricao> lstInscricao = new ArrayList<Inscricao>();
-    
+
     // Evento Selecionado na pagina pesenca.xhtml
     private Integer idEvento;
-    
-    @EJB 
+
+    @EJB
     private GerenciaPresencaFachada gerenciaPresencaFachada;
-    
+
     @EJB
     private Converter conveter;
-    
+
     // Lista de Inscricoes selecionas
     private List<Inscricao> lstInscricaoSelecionada = new ArrayList<Inscricao>();
-    
-    
+
     /**
-     * Atualizar Presença no Evento. Metodo resposavel por iniciar o processo
-     * de atualização da presença.
+     * Atualizar Presença no Evento. Metodo resposavel por iniciar o processo de
+     * atualização da presença.
      */
-    public void atualizarPresencaEvento(){
-        
-        for(Inscricao inscricao : getLstInscricaoSelecionada()){
+    public void atualizarPresencaEvento() {
+
+        for (Inscricao inscricao : getLstInscricaoSelecionada()) {
+
+            Inscricao i = new Inscricao();
+            i.setUsuario(inscricao.getUsuario());
+            i.setEvento(inscricao.getEvento());
+            i.setDataEmailInscricao(inscricao.getDataEmailInscricao());
+            i.setIdInscricao(inscricao.getIdInscricao());
+            i.setPresencaAluno('P');
+
+            gerenciaPresencaFachada.atualizaPresencaFechada(i);
             
-            System.out.println("NOME SELECIONADO " + inscricao.getUsuario().getNomeCompleto());
-            
+            lstInscricao = new ArrayList<Inscricao>();
+            lstInscricaoSelecionada = new ArrayList<Inscricao>();
         }
     }
-    
+
     /**
      * Inicia busca das inscricoes. Metodo responsavel por recuperar a lista de
      * Inscricoes para determinado Evento.
-     * 
+     *
      */
-    public void pesquisarInscricoesEvento(){
-        
+    public void pesquisarInscricoesEvento() {
+
         Evento e = new Evento(getIdEvento());
-        
+
         try {
             setLstInscricao(gerenciaPresencaFachada.recuperaInscricoesEventoFachada(e));
-            
-            if(!lstInscricao.isEmpty()){
-                
-                
+
+            if (!lstInscricao.isEmpty()) {
 
             }
-            
+
         } catch (InscricaoInexistenteException iie) {
-             FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro",  iie.getMessage()) );
-            
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", iie.getMessage()));
+
         }
-        
+
         System.out.println("ID DO EVENTO " + getIdEvento());
     }
-    
+
     /**
      * Recuperar Eventos. Metodo responsavel por recuperar lista de eventos para
-     * realizar o gerenciamento de presenca.
-     * Recupera os Eventos dos ultimos 15 dias a partir da data atual.
-     * 
+     * realizar o gerenciamento de presenca. Recupera os Eventos dos ultimos 15
+     * dias a partir da data atual.
+     *
      * @throws br.com.gestaoeventos.exceptions.EventoNaoEncontradoException
      */
-    public void recuperaEventosPresencaListener() throws EventoNaoEncontradoException{
+    public void recuperaEventosPresencaListener() throws EventoNaoEncontradoException {
+        lstInscricaoSelecionada = new ArrayList<Inscricao>();
+        lstInscricao = new ArrayList<Inscricao>();
         setLstEvento(gerenciaPresencaFachada.recuperaEventosPresencaFachada());
     }
 
-       /**
-     * Redirecionar para Gerenciamento de Presenca. Metodo responsavel por direcionar
-     * o usuario logado para a pagina de Gerenciamento de Presenca
-     * 
+    /**
+     * Redirecionar para Gerenciamento de Presenca. Metodo responsavel por
+     * direcionar o usuario logado para a pagina de Gerenciamento de Presenca
+     *
      * @return String
      */
-    public String returnPageGerenciarPresenca(){
+    public String returnPageGerenciarPresenca() {
         return "/pages/presenca/registro/presenca.xhtml?faces-redirect=true";
     }
 
@@ -164,8 +172,4 @@ public class GerenciaPresencaMB {
         this.lstInscricaoSelecionada = lstInscricaoSelecionada;
     }
 
-
-
-    
-    
 }

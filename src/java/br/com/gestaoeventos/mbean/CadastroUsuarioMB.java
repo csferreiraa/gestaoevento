@@ -5,6 +5,7 @@
  */
 package br.com.gestaoeventos.mbean;
 
+import br.com.gestaoeventos.bean.Curso;
 import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
 import br.com.gestaoeventos.exceptions.UsuarioExistenteException;
@@ -47,6 +48,10 @@ public class CadastroUsuarioMB implements Serializable{
     private Integer idGrupo;
     private String senhaGerada;
     
+    private Boolean liberaComboCurso;
+    private List<Curso> lstCurso = new ArrayList<Curso>();
+    private Integer idCurso;
+    
     
     /**
      * Creates a new instance of CadastroUsuarioMB
@@ -57,12 +62,26 @@ public class CadastroUsuarioMB implements Serializable{
 
     
     /**
-     * Recuperar Grupos. Metodo responsavel por recuperar os Grupos existentes
+     * Recuperar Lista de Cursos. Caso o Grupo selecionado seja ALUNO, permite selecionar um curso
+     * PARA USO DO selectGrp da pagina de cadastro de usuario
+     
+    public void recuperaListCursosAluno(){
+        if(getIdGrupo().equals(4)){
+            setLiberaComboCurso(Boolean.TRUE);
+        } else {
+            setLiberaComboCurso(Boolean.FALSE);
+        }
+    }*/
+    
+    /**
+     * Recuperar Grupos. Metodo responsavel por recuperar os Grupos existentes e
+     * Lista de Cursos para cadastro de Aluno
      */
     public void recuperaListaGruposListener(){
         setNomeCompleto(null);
         setEmail(null);        
-        setLstGrupos(cadastrarUsuarioFachada.retrieveGruposFachada());      
+        setLstGrupos(cadastrarUsuarioFachada.retrieveGruposFachada());  
+        setLstCurso(cadastrarUsuarioFachada.recuperaCursoCadastroAlunoFacahada());
     }
     
     /**
@@ -84,10 +103,11 @@ public class CadastroUsuarioMB implements Serializable{
         us.setSenha(converter.stringToMD5(getSenhaGerada()));
         
         us.setDataInicioCadastro(new Date());
-
+        
         try {
             cadastrarUsuarioFachada.cadastrarUsuarioFachada(us);
             setMostraSenha(Boolean.TRUE);
+
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "Cadastro do Usuário " + us.getNomeCompleto().trim() + " realizado. Senha " + getSenhaGerada()) );
             
@@ -206,6 +226,48 @@ public class CadastroUsuarioMB implements Serializable{
      */
     public void setMostraSenha(Boolean mostraSenha) {
         this.mostraSenha = mostraSenha;
+    }
+
+    /**
+     * @return the liberaComboCurso
+     */
+    public Boolean getLiberaComboCurso() {
+        return liberaComboCurso;
+    }
+
+    /**
+     * @param liberaComboCurso the liberaComboCurso to set
+     */
+    public void setLiberaComboCurso(Boolean liberaComboCurso) {
+        this.liberaComboCurso = liberaComboCurso;
+    }
+
+    /**
+     * @return the lstCurso
+     */
+    public List<Curso> getLstCurso() {
+        return lstCurso;
+    }
+
+    /**
+     * @param lstCurso the lstCurso to set
+     */
+    public void setLstCurso(List<Curso> lstCurso) {
+        this.lstCurso = lstCurso;
+    }
+
+    /**
+     * @return the idCurso
+     */
+    public Integer getIdCurso() {
+        return idCurso;
+    }
+
+    /**
+     * @param idCurso the idCurso to set
+     */
+    public void setIdCurso(Integer idCurso) {
+        this.idCurso = idCurso;
     }
 
 

@@ -245,6 +245,16 @@ public class BuscaEventoMB {
      * @return String
      */
     public String returnPageBuscaEvento() {
+
+        if (lstCursoEvento.isEmpty()) {
+            try {
+                throw new EventoNaoEncontradoException("NÃO HÁ EVENTOS DISPONÍVEIS NO MOMENTO");
+            } catch (EventoNaoEncontradoException enee) {
+                FacesContext context = FacesContext.getCurrentInstance();
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", enee.getMessage()));
+            }
+        }
+        
         return "/pages/pesquisa/evento/buscaEvento.xhtml?faces-redirect=true";
     }
 

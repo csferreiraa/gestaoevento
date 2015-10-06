@@ -5,6 +5,7 @@
  */
 package br.com.gestaoeventos.dao;
 
+import br.com.gestaoeventos.bean.Curso;
 import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
 import br.com.gestaoeventos.exceptions.UsuarioExistenteException;
@@ -31,6 +32,18 @@ public class UsuarioDAO {
     
     private static final String USUARIO_EXISTENTE = "JÁ EXISTE UM USUÁRIO CADASTRADO COM O MESMO E-MAIL";
 
+    
+    /**
+     * Recupera Lista de Curso. Metodo DAO responsavel por recuperar uma lista 
+     * de Curso para cadastro de um novo Aluno.
+     * 
+     * @return 
+     */
+    public List<Curso> recuperaCursoCadastroAlunoDAO(){
+        return em.createQuery("SELECT C FROM Curso C ORDER BY C.nomeCurso ASC").getResultList();
+    }
+    
+    
     /**
      * Retorna um Usuario com o Grupo Acesso para utilizacao apos o Login
      *

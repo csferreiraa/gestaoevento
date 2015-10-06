@@ -84,8 +84,9 @@
             <web-resource-name>Administradores e Coordenadores</web-resource-name>
             <description />
             <url-pattern>/pages/inicio.jsf</url-pattern>
+            <url-pattern>/pages/cadastro/curso/cadastroCurso.jsf</url-pattern>
             <url-pattern>/pages/cadastro/evento/cadastroEvento.jsf</url-pattern>
-            <url-pattern>/pages/error/*</url-pattern>
+            <url-pattern>/pages/presenca/registro/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Adminstradores e Coordenadores</description>
@@ -101,6 +102,7 @@
             <description />
             <url-pattern>/pages/inicio.jsf</url-pattern>
             <url-pattern>/pages/error/*</url-pattern>
+            <url-pattern>/pages/presenca/registro/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Professores</description>

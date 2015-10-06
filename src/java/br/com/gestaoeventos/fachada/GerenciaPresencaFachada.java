@@ -25,6 +25,15 @@ public class GerenciaPresencaFachada {
     private PresencaEventoDAO presencaEventoDAO;
     
     /**
+     * Atualiza Presenca. Metodo responsavel por atualizar Presenca na Fachada.
+     * @param inscricao 
+     */
+    public void atualizaPresencaFechada(Inscricao inscricao){
+        presencaEventoDAO.atualizaPresencaDAO(inscricao);
+    }
+    
+    
+    /**
      * Recuperar inscricoes do evento. Metodo responsavel por recuperar as inscricoes
      * do Evento.
      * 

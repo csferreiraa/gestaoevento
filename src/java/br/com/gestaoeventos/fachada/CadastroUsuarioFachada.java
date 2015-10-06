@@ -5,6 +5,7 @@
  */
 package br.com.gestaoeventos.fachada;
 
+import br.com.gestaoeventos.bean.Curso;
 import br.com.gestaoeventos.bean.Grupos;
 import br.com.gestaoeventos.bean.Usuario;
 import br.com.gestaoeventos.dao.UsuarioDAO;
@@ -23,6 +24,17 @@ public class CadastroUsuarioFachada {
     @EJB
     private UsuarioDAO usuarioDAO;
     private static final String EMAIL_EXISTENTE = "J&aacute; existe outro usu&aacute; com o mesmo e-mail cadastrado na base de dados";
+    
+    
+    /**
+     * Recuperar Lista de Curso. Metodo responsavel por recuperar Cursos para 
+     * Cadastro de um novo Aluno.
+     * 
+     * @return 
+     */
+    public List<Curso> recuperaCursoCadastroAlunoFacahada(){
+        return usuarioDAO.recuperaCursoCadastroAlunoDAO();
+    }
     
     /**
      * Cadastro Usuario Fachada. Metodo responsavel por executar o DAO para 

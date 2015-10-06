@@ -78,13 +78,14 @@
 
                                 <h:outputLabel value="Grupo" 
                                                id="lbGrupo"/>
-                                <h:selectOneMenu value="#{cadastroUsuarioMB.idGrupo}" class="btn bg-info btn-sm">  
+                                <h:selectOneMenu value="#{cadastroUsuarioMB.idGrupo}" class="btn bg-info btn-sm" id="selectGrp">  
                                     <f:selectItems value="#{cadastroUsuarioMB.lstGrupos}" 
                                                    var="grupo" 
                                                    itemValue="#{grupo.idGrupo}" 
                                                    itemLabel="#{grupo.descricaoGrupo}"
                                                    noSelectionValue="Selecione um grupo" />
                                 </h:selectOneMenu>
+                                <h:outputLabel value="" id="vazio10"/>
 
                                 <!--h:message for="autoCompleteGrupos" style="color: red" /-->
 

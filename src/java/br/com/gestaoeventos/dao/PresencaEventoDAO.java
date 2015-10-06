@@ -32,9 +32,18 @@ public class PresencaEventoDAO {
     
     @EJB
     private Converter converter;
-    
+
     private static final String EVENTO_NAO_ENCONTRADO = "NÃO EXISTEM EVENTOS PARA MARCAR PRESENCA NO PERÍODO DE HOJE MENOS 15 DIAS.";
     private static final String INSCRICAO_NAO_ENCONTRADA = "NÃO EXISTEM INSCRICOES NO EVENTO SELECIONADO.";
+    
+    
+    /**
+     * Atualiza Presenca. Metodo DAO responsavel por atualizar a presenca.
+     * @param inscricao 
+     */
+    public void atualizaPresencaDAO(Inscricao inscricao){
+        em.merge(inscricao); 
+    }
     
     /**
      * Recuperar Lista de Inscricoes do Evento. Metodo responsavel por recuperar
