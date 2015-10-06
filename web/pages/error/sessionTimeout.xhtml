@@ -6,12 +6,12 @@
 
     <body>
 
-        <ui:composition template="/template.xhtml">
+        <ui:composition template="./../../template.xhtml">
 
             <ui:define name="location">
-                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Página Não Permitida" id="lbCadUnid"/></b>
+                <b><h:outputLabel value="Voc&ecirc; est&aacute; em Sessão Expirada" id="lbCadUnid"/></b>
             </ui:define>
-            
+
 
             <ui:define name="content">
 
@@ -20,13 +20,12 @@
                     <h:form>
                         <center>
                             <b>
-                                Voc&ecirc; n&atilde;o possui acesso a funcionalidade. Por favor, consulte a administra&ccedil;&atilde;o do sistema.
+                                Sua sessão expirou.
                                 <br/>
-                                Clique <h:commandLink value="aqui" action="#{loginMB.retornaInicio}"/> para voltar ao inicio.
                             </b>
                         </center>
                     </h:form>
-                    
+
 
                 </div>
 

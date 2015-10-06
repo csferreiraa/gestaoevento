@@ -87,6 +87,7 @@
             <url-pattern>/pages/cadastro/curso/cadastroCurso.jsf</url-pattern>
             <url-pattern>/pages/cadastro/evento/cadastroEvento.jsf</url-pattern>
             <url-pattern>/pages/presenca/registro/*</url-pattern>
+            <url-pattern>/pages/error/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description>Adminstradores e Coordenadores</description>
@@ -137,6 +138,15 @@
         <error-code>403</error-code>
         <location>/pages/error/forbidden.jsf</location>
     </error-page>
-
+    <error-page>
+        <!-- Missing resource -->
+        <error-code>404</error-code>
+        <location>/pages/error/missingResource.jsf</location>
+    </error-page>
+    <error-page>
+        <!-- Session timeout -->
+        <error-code>408</error-code>
+        <location>/pages/error/sessionTimeout.jsf</location>
+    </error-page>
     
 </web-app>
