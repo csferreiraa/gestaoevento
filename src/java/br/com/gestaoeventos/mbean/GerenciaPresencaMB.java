@@ -65,6 +65,11 @@ public class GerenciaPresencaMB {
             
             lstInscricao = new ArrayList<Inscricao>();
             lstInscricaoSelecionada = new ArrayList<Inscricao>();
+            
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso",  "PRESENÇA ATUALIZADA." ) );
+           
+            
         }
     }
 

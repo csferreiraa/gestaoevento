@@ -146,6 +146,9 @@
 
                             <center>
                                 <h:commandButton value="Cancelar Inscrição" 
+                                                 onclick="if (!confirm('Deseja Cancelar a Inscrição ?')) {
+                                                             return false;
+                                                         }"
                                                  action="#{meuEventoMB.iniciaCancelamentoEvento}"
                                                  class="btn btn-primary btn-sm"/>
                             </center>

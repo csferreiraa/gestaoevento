@@ -61,7 +61,7 @@
 
                                 <p:commandButton value="Pesquisar" 
                                                  class="btn btn-primary btn-sm"
-                                                 onclick="if (!confirm('Deseja Confirmar o Cadastro ?')) {
+                                                 onclick="if (!confirm('Deseja Confirmar a pesquisa ?')) {
                                                              return false;
                                                          }"
                                                  action="#{buscaEventoMB.iniciaPesquisaDetalheEvento}" 
@@ -129,7 +129,9 @@
                             <center>
                                 <h:commandButton value="Inscrever" 
                                                  action="#{buscaEventoMB.verificaPossibilidadeInscricaoEvento}"
-                                                 class="btn btn-primary btn-sm"/>
+                                                 class="btn btn-primary btn-sm"
+                                                 onclick="if (!confirm('Deseja Confirmar a Inscriçao ?')) {
+                                                            return false;}"/>
                             </center>
                             <br/>
                         </h:form>
